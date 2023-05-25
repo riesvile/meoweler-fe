@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"prod": "vite dev --host 0.0.0.0 --port 8080"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
