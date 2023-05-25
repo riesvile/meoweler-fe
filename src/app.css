@@ -1,0 +1,142 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+@font-face {
+    font-family: Satoshi;
+    font-weight: 400;
+    src: url('/fonts/Satoshi-Regular.otf');
+}
+
+@font-face {
+    font-family: Satoshi;
+    font-weight: 500;
+    src: url('/fonts/Satoshi-Medium.otf');
+}
+
+body {
+	font-family: Satoshi;
+	background-color: #f5f5f5;
+}
+
+/*body.searching {
+	position: fixed;
+	overflow: hidden;
+}*/
+
+.midlight {
+	opacity: 0.76 !important;
+}
+
+.lowlight {
+	opacity: 0.6 !important;
+}
+
+#logo {
+	
+}
+
+.dimmed {
+	opacity: 0.4;
+}
+
+
+.space_xs {
+	display: block;
+	clear: both;
+	width: 100%;
+	height: 8px;
+}
+
+.space_s {
+	display: block;
+	clear: both;
+	width: 100%;
+	height: 16px;
+}
+
+.space_m {
+	display: block;
+	clear: both;
+	width: 100%;
+	height: 20px;
+}
+
+.space_l {
+	display: block;
+	clear: both;
+	width: 100%;
+	height: 32px;
+}
+
+.space_xl {
+	display: block;
+	clear: both;
+	width: 100%;
+	height: 50px;
+}
+
+.bg_great .card_summary_text {
+	color: #117B0F;
+}
+
+.bg_great .card_background {
+	background: rgb(240,251,237);
+	background: linear-gradient(160deg, rgba(240,251,237,1) 0%, rgba(255,255,255,1) 100%);
+}
+
+.bg_meh .card_background {
+	background: rgb(251,245,237);
+	background: linear-gradient(160deg, rgba(251,245,237,1) 0%, rgba(255,255,255,1) 100%);
+}
+
+.bg_bad .card_background {
+	background: rgb(251,237,237);
+	background: linear-gradient(160deg, rgba(251,237,237,1) 0%, rgba(255,255,255,1) 100%);
+}
+
+.bg_carded .card_background {
+/*	border: 1px solid #000;*/
+/*	background: #0ff !important;*/
+}
+
+.text_great {
+	color: #117B0F !important;
+}
+
+.text_good {
+	color: #667B0F !important;
+}
+
+.text_meh {
+	color: #A97818 !important;
+}
+
+.text_bad {
+	color: #7B0F0F !important;
+}
+
+
+
+
+.list_expanded .list_row {
+/*	height: 80px !important;*/
+/*	transition: all 0.2s !important;*/
+/*	background-color: #f00 !important;*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

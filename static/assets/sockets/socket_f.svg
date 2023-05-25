@@ -1,0 +1,23 @@
+<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="5" y="5" width="46" height="46" rx="23" fill="white"/>
+<rect x="4.5" y="4.5" width="47" height="47" rx="23.5" stroke="black" stroke-opacity="0.2"/>
+<rect x="13" y="24" width="8" height="8" rx="4" fill="black"/>
+<rect x="24" y="11" width="8" height="8" rx="4" fill="url(#paint0_radial_624_1004)" fill-opacity="0.2"/>
+<rect x="35" y="24" width="8" height="8" rx="4" fill="black"/>
+<mask id="mask0_624_1004" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="5" y="5" width="46" height="46">
+<rect x="5" y="5" width="46" height="46" rx="23" fill="white"/>
+<rect x="5.5" y="5.5" width="45" height="45" rx="22.5" stroke="black" stroke-opacity="0.2"/>
+</mask>
+<g mask="url(#mask0_624_1004)">
+<rect x="4" y="12" width="6" height="14" fill="#E2E2E2"/>
+<rect x="46" y="12" width="6" height="14" fill="#E2E2E2"/>
+<rect x="4" y="30" width="6" height="15" fill="#E2E2E2"/>
+<rect x="46" y="30" width="6" height="14" fill="#E2E2E2"/>
+</g>
+<defs>
+<radialGradient id="paint0_radial_624_1004" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(28 15) rotate(90) scale(4)">
+<stop stop-color="#BDBDBD" stop-opacity="0"/>
+<stop offset="1" stop-color="#464646"/>
+</radialGradient>
+</defs>
+</svg>

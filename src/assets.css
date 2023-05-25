@@ -1,0 +1,53 @@
+
+
+.ico_discord {
+	background: url('/assets/ico_discord.svg');
+}
+
+.ico_gmaps {
+	background: url('/assets/ico_gmaps.svg');
+}
+
+.ico_gmaps_36 {
+	background: url('/assets/ico_gmaps_36.svg');
+}
+
+.ico_search {
+	background: url('/assets/ico_search.svg');
+}
+
+.ico_close {
+	background: url('/assets/ico_close.svg');
+}
+
+.ico_wifi_great {
+	background: url('/assets/ico_wifi_great.svg');
+}
+
+.ico_wifi_meh {
+	background: url('/assets/ico_wifi_meh.svg');
+}
+
+.ico_wifi_bad {
+	background: url('/assets/ico_wifi_bad.svg');
+}
+
+.bg_great .ico_wifi {
+	background: url('/assets/ico_wifi_great.svg');
+}
+
+.bg_meh .ico_wifi {
+	background: url('/assets/ico_wifi_meh.svg');
+}
+
+.bg_bad .ico_wifi {
+	background: url('/assets/ico_wifi_bad.svg');
+}
+
+.socket_a {
+	background: url('/assets/sockets/socket_a.svg');	
+}
+
+
+
+

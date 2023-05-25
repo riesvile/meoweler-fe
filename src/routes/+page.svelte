@@ -1,0 +1,1209 @@
+
+<script>
+  import MeowScore from '$lib/MeowScore.svelte'
+  import Footer from '$lib/Footer.svelte'
+  import anime from "animejs";
+  import { onMount } from 'svelte';
+  import { scales } from '$lib/helpers.js';
+
+  let overlay_protection = '';
+  let disabledScroll = false;
+  // console.log(scales);
+
+  onMount(() => {
+  	console.log('moiduhsfd');
+  	overlay_protection = document.getElementById('overlay');
+  	overlay_protection.addEventListener('click', () => {
+		is_expanded = !is_expanded;
+		toggle_card(expanded_id);
+	}, false)
+  });
+
+  let expanded_id = '';
+  let is_expanded = 0;
+  let meow_expanded = 0;
+  let offsets = [];
+  let card_style_reset = {
+  	position: 'absolute',
+  	top: 0,
+  	left: 0,
+  	width: '100%',
+  	height: '100%',
+  	zIndex: 0
+  }
+  let card_ids = [
+  	'month_visit',
+  	'economy',
+  	'duration',
+  	'tipping',
+  	'internet',
+  	'socket',
+  	'currency',
+  	'time',
+  	'bike',
+  	'walk',
+  	'lgbtq',
+  	'ttds',
+  	'gems'
+  ]
+
+  $: screenWidth = 0;
+  $: screenHeight = 0;
+
+  $: expanded = expanded_id;
+
+
+
+  function expand_card(el){
+
+  }
+
+  function overlay(state){
+  	console.log(state);
+  	
+  	if (state) {
+  		overlay_protection.style.pointerEvents = 'auto';
+  	} else {
+  		overlay_protection.style.pointerEvents = 'none';
+  	}
+
+  	anime({
+  		targets: overlay_protection,
+  		opacity: +state,
+  		backdropFilter: 'blur(4px)',
+  		'-webkit-backdrop-filter': 'blur(4px)',
+  		duration: 200,
+  		easing: 'easeOutQuad'
+  	})
+  }
+
+  function animate_card_content(keep, getout, getin, state2){
+  	let state_val = +state2;
+  	console.log('state = ' + state_val)
+  	
+
+	  	anime({
+	  		targets: getout,
+	  		opacity: +!state_val,
+	  		delay: (+!state_val * 100),
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
+
+	  	console.log('newopacity = ' + !state_val)
+
+	  	anime({
+	  		targets: getin,
+	  		opacity: state_val,
+	  		delay: (state_val * 100),
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
+  }
+
+  function offset_edges(bottom_edge, right_edge){ 
+  	let bottom_offset = bottom_edge - screenHeight;
+  	let right_offset = right_edge - screenWidth;
+  	let offsets = [bottom_offset > 0 ? bottom_offset : 0, right_offset > 0 ? right_offset : 0]
+  	// console.log('bo = ' + bottom_offset);
+  	return offsets;
+  }
+
+  function toggle_card(element_id){
+  	if (element_id == 'meow'){
+  		console.log('meoww');
+  		meow_expanded = !meow_expanded;
+  		overlay(is_expanded);
+  		return;
+  	}
+
+  	let el = document.getElementById(element_id);
+  	let wrap_el = el.querySelector('.card_wrapper')
+  	let expanded_el = el.querySelector('.card_content_expanded')
+  	let bcr_main = el.getBoundingClientRect();
+  	let bcr_expanded = expanded_el.getBoundingClientRect();
+  	let anim_keep = wrap_el.getElementsByClassName('keep');
+  	let anim_getout = wrap_el.getElementsByClassName('getout');
+  	let anim_getin = wrap_el.getElementsByClassName('getin');
+  	console.log('offsets:');
+  	console.log(offsets);
+  	// console.log(bcr_expanded)
+  	// console.log(bcr_main);
+
+
+  	let expand_values = {
+  		paddingBottom: 0,
+  		width: Math.round(bcr_expanded.width) + 'px',
+  		height: Math.round(bcr_expanded.height) + 'px',
+  		zIndex: 8
+  	}
+
+  	Object.assign(expanded_el.style, expand_values)
+
+  	if (is_expanded){
+  		overlay(is_expanded);
+  		wrap_el.style.position = 'fixed';
+	  	wrap_el.style.zIndex = 8;
+	  	offsets = offset_edges(bcr_expanded.top + bcr_expanded.height, bcr_expanded.left + bcr_expanded.width);
+
+	  	if (element_id == 'ttds' || element_id == 'gems' || element_id == 'month_visit'){
+	  		// wrap_el.classList.toggle('list_expanded');
+	  		expanded_el.style.pointerEvents = 'auto';
+	  	}
+
+	  	anime({
+	  		targets: wrap_el,
+	  		left: [Math.round(bcr_main.left) + 'px', Math.round(bcr_main.left - 8 - offsets[1]) + 'px'],
+	  		top: [Math.round(bcr_main.top) + 'px', Math.round(bcr_main.top - 12 - offsets[0]) + 'px'],
+	  		width: [Math.round(bcr_main.width) + 'px', Math.round(bcr_expanded.width) + 'px'],
+	  		height: [Math.round(bcr_main.height) + 'px', Math.round(bcr_expanded.height) + 'px'],
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
+
+	  	// anime({
+	  	// 	targets: '.list_row',
+	  	// 	height: '82px',
+	  	// 	duration: 150,
+	  	// 	easing: 'easeInOutQuad'
+	  	// })
+
+	  	animate_card_content(anim_keep, anim_getout, anim_getin, is_expanded);
+
+	  	// console.log(expanded_id);
+	} else {
+		overlay(is_expanded);
+
+		if (element_id == 'ttds' || element_id == 'gems' || element_id == 'month_visit'){
+	  		// wrap_el.classList.toggle('list_expanded');
+	  		expanded_el.style.pointerEvents = 'none';
+	  	}
+
+	  	anime({
+	  		targets: wrap_el,
+	  		left: [Math.round(bcr_main.left - 8 - offsets[1]) + 'px', Math.round(bcr_main.left) + 'px'],
+	  		top: [Math.round(bcr_main.top - 12 - offsets[0]) + 'px', Math.round(bcr_main.top) + 'px'],
+	  		width: [Math.round(bcr_expanded.width) + 'px', Math.round(bcr_main.width) + 'px'],
+	  		height: [Math.round(bcr_expanded.height) + 'px', Math.round(bcr_main.height) + 'px'],
+	  		duration: 150,
+	  		easing: 'easeOutQuad',
+	  		complete: function(anim) {
+			  Object.assign(wrap_el.style, card_style_reset)
+			}
+	  	})
+
+	  	// anime({
+	  	// 	targets: '.list_row',
+	  	// 	height: '32px',
+	  	// 	duration: 150,
+	  	// 	easing: 'easeInOutQuad'
+	  	// })
+
+	  	animate_card_content(anim_keep, anim_getout, anim_getin, is_expanded);
+
+	}
+  }
+
+  function click_t(e){
+  	console.log('triggered');
+  	console.log(e.target.id)
+  	let el_id = e.target.id;
+  	if (card_ids.includes(el_id)){
+  		console.log('293409238759082374029837429347092847290384');
+  		expanded_id = el_id;
+  		is_expanded = !is_expanded;
+  		toggle_card(el_id);
+  	} else {
+  		console.log('nopenopenopenope');
+  		if (el_id == 'close_ttds' || el_id == 'close_gems'){
+  			is_expanded = !is_expanded;
+  			toggle_card(expanded_id);
+  		}
+
+  	}
+  }
+
+  function handleMeow(event){
+  	if (event.detail.text == 'overlay'){
+  		console.log('happened');
+  		is_expanded = !is_expanded;
+  		expanded_id = 'meow';
+  		overlay(is_expanded);
+  	} else if (event.detail.text == 'reset'){
+  		meow_expanded = 0;
+  	}
+  }
+
+
+</script>
+
+
+<svelte:window bind:innerWidth={screenWidth} bind:innerHeight={screenHeight}/>
+
+<main class:scroll-lock={disabledScroll}>
+
+<div id='overlay'></div>
+
+<div class='text_intro'>
+	<a href='#' class='country'>Czech Republic</a> 
+	<h2 id='tagline'><span id='city_in_tagline'>Prague</span> / Timeless Enchantment in the Heart of Europe</h2>
+</div>
+
+<div id='ilu_and_meow'>
+	<div id='city_ilu_blown' style='background-image: url(./assets/ilu_prague.jpg);'></div>
+	<div id='city_ilu' style='background-image: url(./assets/ilu_prague.jpg);'></div>
+	<MeowScore on:message={handleMeow} meow_expanded={meow_expanded}/>
+</div>
+
+<div id='snippet_cards'>
+	<div id='month_visit' class='card c_1' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='card_headline getout'>Best month</h4>
+				<p class='card_big_text getout' style='color: #228b22;'>June</p>
+				<p class='card_small_text bottom_aligned getout'>Pleasant weather, fewer crowds and beautiful
+spring blossoms.</p>
+			</div>
+			<div class='card_content_expanded'>
+				<div id='close_ttds' class='close_card getin'><span class='ico_close'></span></div>
+				<h4 class='card_headline getin'>When to visit</h4>
+				<div class='list_row row_month getin'>
+					<span class='list_emoji'>🎆</span><h5 class="list_head_exp" style='color: #f4ac42;'>January</h5>
+					<p id='ttd1' class='list_para getin'>Visit Tokyo for amazing new year celebrations! 🎉🎊</p>
+				</div>
+				<div class='list_row row_month getin'>
+					<span class='list_emoji'>🐻</span><h5 class='list_head_exp' style='color: #b22222;'>February</h5>
+					<p id='ttd2' class='list_para getin'>Experience unique Setsubun traditions with throwing beans! 🐻🎉</p>
+				</div>
+				<div class='list_row row_month getin'>
+					<span class='list_emoji'>🌸</span><h5 class='list_head_exp' style='color: #ffb6c1;'>March</h5>
+					<p id='ttd2' class='list_para getin'>Witness cherry blossom season across the city 🌸</p>
+				</div>
+				<div class='list_row row_month getin'>
+					<span class='list_emoji'>🎎</span><h5 class='list_head_exp' style='color: #ffd700;'>Apirl</h5>
+					<p id='ttd2' class='list_para getin'>Explore Tokyo's traditional side during the Golden Week holidays 🎎</p>
+				</div>
+				<div class='list_row row_month getin'>
+					<span class='list_emoji'>🎏</span><h5 class='list_head_exp' style='color: #00bfff;'>May</h5>
+					<p id='ttd2' class='list_para getin'>Celebrate the Children's Day national holiday with koinobori carps! 🎏</p>
+				</div>
+				<div class='list_row row_month getin'>
+					<span class='list_emoji'>🍱</span><h5 class='list_head_exp' style='color: #228b22;'>June</h5>
+					<p id='ttd2' class='list_para getin'>Experience Tokyo's delicious and colorful food scene during the rainy season 🍱</p>
+				</div>
+				<div class='list_row row_month getin'>
+					<span class='list_emoji'>🎆</span><h5 class='list_head_exp' style='color: #ff8c00;'>July</h5>
+					<p id='ttd2' class='list_para getin'>Catch the thrilling Sumida River Fireworks Festival! 🎆</p>
+				</div>
+				<div class="space_xl"></div>
+				<div class="space_xl"></div>
+			</div>
+		</div>
+	</div>
+
+	<div id='economy' class='card c_13 align_l' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper bg_great">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<span class='ico_emoji card_icon keep'>🤑</span>
+				<p class='card_summary_text midish_aligned getout'>Extremely affordable</p>
+				<p class='card_small_text text_great bottom_aligned getout'>Big mac:</p>
+			</div>
+			<div class='card_content_expanded'>
+				<span class='ico_emoji card_icon dup'>🤑</span>
+				<p class='card_medium_text text_great getin'>The shopping and economy in Prague are generally affordable for a visiting cat. However, there are some expensive areas and tourist traps that should be avoided in order to save paws. Prices for food, drinks, and souvenirs are reasonable.</p>
+				<p class='card_medium_text text_great getin'>Visit local markets for cheaper food and avoid restaurants in touristy areas.</p>
+				<div class='space_xs'></div>
+			</div>
+		</div>
+	</div>
+	<div id='duration' class='card c_23 align_r' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='card_headline keep'>Usual visit duration</h4>
+				<p class='card_big_text keep'>3–4 days</p>
+				<p class='card_small_text bottom_aligned getout'>Rich history, compact size, popular destination</p>
+			</div>
+			<div class='card_content_expanded'>
+				<h4 class='card_headline dup'>Usual visit duration</h4>
+				<p class='card_big_text dup'>3–4 days</p>
+				<p class='card_small_text getin'>Rich history, compact size, popular destination</p>
+				<p class='card_small_text getin'>Many tourists stay for a week or more to truly explore the city and its surroundings.</p>
+			</div>
+		</div>
+	</div>
+
+	<div id='tipping' class='card c_23 align_l' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='card_headline keep'>Tipping</h4>
+				<p class='card_big_text keep'>10–15%</p>
+				<p class='card_small_text bottom_aligned getout'>Tipping appreciated, not mandatory, mostly in restaurants</p>
+			</div>
+			<div class='card_content_expanded'>
+				<h4 class='card_headline dup'>Tipping</h4>
+				<p class='card_big_text dup'>10–15%</p>
+				<p class='card_small_text getin'>Tipping appreciated, not mandatory, mostly in restaurants</p>
+				<p class='card_small_text getin'>Cash is preferred. Splitting the bill is not common. Etiquette dictates handing cash to the waiter discreetly.</p>
+			</div>
+		</div>
+	</div>
+	<div id='internet' class='card c_13 align_r' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper bg_great">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<span class='ico_wifi card_icon keep'></span>
+				<p class='card_summary_text bottom_aligned getout'>Excellent internet situation</p>
+			</div>
+			<div class='card_content_expanded'>
+				<span class='ico_wifi card_icon dup'></span>
+				<div class='space_s'></div>
+				<p id='speed_head' class='inner_head text_great getin'>Excellent Speed</p>
+				<p id='speed_desc' class='text_desc getin'>Fast and reliable in most areas</p>
+				<div class='space_s'></div>
+				<p id='avail_head' class='inner_head text_great getin'>Excellent Availability</p>
+				<p id='avail_desc' class='text_desc getin'>Fast and reliable in most areas</p>
+				<div class='space_s'></div>
+				<p id='cell_head' class='inner_head text_good getin'>Good Cellular</p>
+				<p id='cell_desc' class='text_desc getin'>Good coverage and fast speeds on major networks</p>
+				<div class='space_xs'></div>
+			</div>
+		</div>
+	</div>
+
+	<div id='socket' class='card c_square' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<span id='socket_type' class='socket_a card_icon_socket keep'></span>
+			</div>
+			<div class='card_content_expanded'>
+				<span id='socket_type' class='socket_a card_icon_socket dup'></span>
+				<div class='space_s'></div>
+				<p id='socket_head' class='inner_head_small getin'>Electric socket type J</p>
+				<p id='socket_desc' class='text_desc getin'>Used in Switzerland and Liechtenstein</p>
+				<div class='space_xs'></div>
+			</div>
+		</div>
+	</div>
+	<div id='currency' class='card c_square' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<span id='socket_type' class='ico_socket_j card_icon keep'></span>
+				<span id='currency_code' class='getout'>CHF</span>
+			</div>
+			<div class='card_content_expanded'>
+				<p class='currency_conversion card_in getin'><span id='currency_base'>1 CHF</span> = <br><span id='currency_target'>1.104 USD</span></p>
+				<div class='space_s'></div>
+				<a href='#' id='currency_conversion_link' class='external_link card_in getin'>Currency converter</a>
+				<div class='space_xs'></div>
+			</div>
+		</div>
+	</div>
+	<div id='time' class='card c_2square_rest' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='card_headline keep'>UTC+1</h4>
+				<p id='current_time' class='card_big_text keep'>22:48</p>
+			</div>
+			<div class='card_content_expanded'>
+				<h4 class='card_headline dup'>UTC+1</h4>
+				<p id='current_time' class='card_big_text dup'>22:48</p>
+				<div class='space_xs'></div>
+				<p class='card_small_col midlight card_in getin'>Sunrise<br>Sunset<br>Day length</p>
+				<p class='card_small_col getin'>05:37 AM<br>08:33 PM<br>15h 35m</p>
+			</div>
+		</div>
+	</div>
+
+	<div id='bike' class='card c_triplet' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper bg_great">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='inner_head text_centered text_great getout'>Biking friendly</h4>
+			</div>
+			<div class='card_content_expanded'>
+				<p class='card_large_text text_centered text_great getin'>Some bike paths</p>
+			</div>
+		</div>
+	</div>
+
+	<div id='walk' class='card c_triplet' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper bg_meh">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='inner_head text_centered text_meh getout'>Walkable -ish</h4>
+			</div>
+			<div class='card_content_expanded'>
+				<p class='card_large_text text_centered text_meh getin'>Pedestrian-friendly city center</p>
+			</div>
+		</div>
+	</div>
+
+	<div id='lgbtq' class='card c_triplet c_last' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper bg_bad">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='inner_head text_centered text_bad getout'>LGBTQ hostile</h4>
+			</div>
+			<div class='card_content_expanded'>
+				<p class='card_large_text text_centered text_bad getin'>Progressive laws</p>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class='space_l'></div>
+
+<div id='rest_content'>
+	<div id="rest_content_bg_top"></div>
+	<div id="rest_content_bg_bottom"></div>
+	<p class='about_text'>As cats prowling the streets of a majestic cat castle, we were in awe of the historic architecture and the abundance of cat cafes. Meow-nificent!</p>
+	<p class="about_text">But beware of the cat-sized crowds and hair-raising maze of alleyways. Nine lives may not be enough to explore it all!</p>
+
+	<h3 class='content_headline'>Things to do</h3>
+
+	<div id='ttds' class='card c_1_list' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper card_border bg_carded">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='card_headline keep'>The mainstream</h4>
+				<div class='list_row getout'>
+					<span class='list_emoji'>🏰</span><h5 class='list_head'>Zurich Old Town</h5>
+				</div>
+				<div class='list_row getout'>
+					<span class='list_emoji'>🌊</span><h5 class='list_head'>Lake Zurich</h5>
+				</div>
+				<div class='list_row getout'>
+					<span class='list_emoji'>🖼️</span><h5 class='list_head'>Swiss national museum</h5>
+				</div>
+				<div class='list_row getout'>
+					<span class='list_emoji'>🛍️</span><h5 class='list_head'>Bahnhofstrasse</h5>
+				</div>
+				<div class='list_row getout'>
+					<span class='list_emoji'>🦒</span><h5 class='list_head'>Zurich Zoo</h5>
+				</div>
+			</div>
+			<div class='card_content_expanded'>
+				<div id='close_ttds' class='close_card getin'><span class='ico_close'></span></div>
+				<h4 class='card_headline dup'>The mainstream</h4>
+				<div class='list_row getin'>
+					<span class='list_emoji'>🏰</span><h5 class='list_head_exp'>Zurich Old Town</h5>
+					<p id='ttd1' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
+					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+				</div>
+				<div class='list_row getin'>
+					<span class='list_emoji'>🌊</span><h5 class='list_head_exp'>Lake Zurich</h5>
+					<p id='ttd2' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
+					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+				</div>
+				<div class='list_row getin'>
+					<span class='list_emoji'>🖼️</span><h5 class='list_head_exp'>Swiss national museum</h5>
+					<p id='ttd3' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
+					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+				</div>
+				<div class='list_row getin'>
+					<span class='list_emoji'>🛍️</span><h5 class='list_head_exp'>Bahnhofstrasse</h5>
+					<p id='ttd4' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
+					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+				</div>
+				<div class='list_row getin'>
+					<span class='list_emoji'>🦒</span><h5 class='list_head_exp'>Zurich Zoo</h5>
+					<p id='ttd5' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
+					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+				</div>
+				<div class="space_xl"></div>
+				<div class="space_l"></div>
+			</div>
+		</div>
+	</div>
+
+	<div id='gems' class='card c_1_list' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper card_border bg_carded">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='card_headline keep'>Off the beaten path</h4>
+				<div class='list_row getout'>
+					<span class='list_emoji'>🏰</span><h5 class='list_head'>Zurich Old Town</h5>
+				</div>
+				<div class='list_row getout'>
+					<span class='list_emoji'>🌊</span><h5 class='list_head'>Lake Zurich</h5>
+				</div>
+				<div class='list_row getout'>
+					<span class='list_emoji'>🖼️</span><h5 class='list_head'>Swiss national museum</h5>
+				</div>
+				<div class='list_row getout'>
+					<span class='list_emoji'>🛍️</span><h5 class='list_head'>Bahnhofstrasse</h5>
+				</div>
+				<div class='list_row getout'>
+					<span class='list_emoji'>🦒</span><h5 class='list_head'>Zurich Zoo</h5>
+				</div>
+			</div>
+			<div class='card_content_expanded'>
+				<div id='close_gems' class='close_card getin'><span class='ico_close'></span></div>
+				<h4 class='card_headline dup'>Off the beaten path</h4>
+				<div class='list_row getin'>
+					<span class='list_emoji'>🏰</span><h5 class='list_head_exp'>Zurich Old Town</h5>
+					<p id='ttd1' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
+					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+				</div>
+				<div class='list_row getin'>
+					<span class='list_emoji'>🌊</span><h5 class='list_head_exp'>Lake Zurich</h5>
+					<p id='ttd2' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
+					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+				</div>
+				<div class='list_row getin'>
+					<span class='list_emoji'>🖼️</span><h5 class='list_head_exp'>Swiss national museum</h5>
+					<p id='ttd3' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
+					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+				</div>
+				<div class='list_row getin'>
+					<span class='list_emoji'>🛍️</span><h5 class='list_head_exp'>Bahnhofstrasse</h5>
+					<p id='ttd4' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
+					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+				</div>
+				<div class='list_row getin'>
+					<span class='list_emoji'>🦒</span><h5 class='list_head_exp'>Zurich Zoo</h5>
+					<p id='ttd5' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
+					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+				</div>
+				<div class="space_xl"></div>
+				<div class="space_l"></div>
+			</div>
+		</div>
+	</div>
+
+	<h3 class='content_headline'>Mindful meowler tips</h3>
+
+</div>
+
+<div id='restrest'>
+
+<div id='mindful_master_wrap'>
+	<div id='mindful_meowler_wrap'>
+		<div class='meow_tip'>
+			<div class='meow_tip_img'></div>
+			<h4 class='meow_tip_head'>Public transport</h4>
+			<p class='meow_desc'>When using public transport in Zurich, be sure to purchase and validate tickets before boarding. Ticket inspections are frequent, and fines for fare evasion are very steep.</p>
+		</div>
+		<div class='meow_tip'>
+			<div class='meow_tip_img'></div>
+			<h4 class='meow_tip_head'>dsfc transport</h4>
+			<p class='meow_desc'>Tokyo is home to over 100 cat cafes, where you can pet and play with cats while enjoying a cup of tea. Some cafes even have cat-themed food and drinks!</p>
+		</div>
+		<div class='meow_tip tip_last'>
+			<div class='meow_tip_img'></div>
+			<h4 class='meow_tip_head'>aflk transport</h4>
+		</div>
+	</div>
+</div>
+
+<div class="space_xl"></div>
+<div class="space_m"></div>
+
+<Footer/>
+
+</div>
+
+</main>
+
+
+<style>
+
+
+
+	#mindful_master_wrap {
+		/*white-space: nowrap;
+		overflow: scroll;
+		display: flex;
+		width: 800%;
+		height: 100px;
+		background-color: #828;*/
+
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-flow: column nowrap;
+		height: 100%;
+
+	}
+
+	#mindful_meowler_wrap {
+		display: flex;
+		overflow: auto;
+		flex: none;
+		scroll-snap-type: x mandatory;
+		width: 100%;
+		flex-flow: row nowrap;
+	}
+
+	#mindful_meowler_wrap::-webkit-scrollbar {
+	    display: none;
+	}
+
+	.meow_tip {
+		width: 77%;
+/*		height: 100px;*/
+		scroll-snap-align: start;
+		flex: none;
+		padding-left: 16px;
+	}
+
+	.tip_last {
+		padding-right: 16px;
+	}
+
+	.meow_tip_img {
+		width: 100%;
+		height: 200px;
+		background-color: #038;
+		border-radius: 24px 24px 12px 12px;
+	}
+
+	h4.meow_tip_head {
+		font-size: 20px;
+		font-weight: 400;
+		line-height: 24px;
+		margin-top: 16px;
+	}
+
+	p.meow_desc {
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 22px;
+		color: rgba(0, 0, 0, 0.72);
+		width: 94%;
+		margin-top: 8px;
+	}
+
+	#restrest {
+		background-color: #fff;
+	}
+
+	.close_card {
+		width: 56px;
+		height: 56px;
+		position: fixed;
+		bottom: 40px;
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: #fff;
+		box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.24);
+		border-radius: 56px;
+		z-index: 10;
+	}
+
+	.close_card span {
+		width: 48px;
+		height: 48px;
+		display: block;
+		position: absolute;
+		top: 4px;
+		left: 4px;
+		pointer-events: none;
+	}
+
+	.gmaps_link {
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 36px;
+		display: inline-block;
+		text-decoration: none;
+		color: rgba(0, 0, 0, 0.6);
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 36px;
+		padding: 0 12px 0 35px;
+		position: relative;
+/*		pointer-events: auto;*/
+		margin: 12px 0 12px 16px;
+	}
+
+	.link_icon {
+		display: block;
+		width: 36px;
+		height: 36px;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.row_month {
+		padding-top: 20px;
+	}
+
+	.list_para {
+		font-size: 14px;
+		line-height: 20px;
+		margin-left: 16px;
+		margin-top: 10px;
+		color: rgba(0, 0, 0, 0.6);
+	}
+
+	.list_emoji {
+		font-size: 24px;
+		margin-left: 16px;
+		margin-right: 12px;
+		float: left;
+		line-height: 32px;
+	}
+
+	h5.list_head {
+		font-size: 24px;
+		font-weight: 400;
+		line-height: 32px;
+		color: rgba(0, 0, 0, 0.96);
+	}
+
+	h5.list_head_exp {
+		font-size: 20px;
+		font-weight: 400;
+		line-height: 32px;
+		color: rgba(0, 0, 0, 0.96);
+	}
+
+	.list_row {
+		width: 100%;
+		height: 32px;
+		margin-top: 16px;
+/*		transition: all 0.2s;*/
+	}
+
+	#ttds .list_row, #gems .list_row, #month_visit .list_row {
+		width: calc(100% - 16px);
+		height: auto;
+		margin-top: 16px;
+/*		transition: all 0.2s;*/
+	}
+
+	h3.content_headline {
+		font-size: 32px;
+		font-weight: 400;
+		color: #000;
+		margin-bottom: 20px;
+		margin-left: 4px;
+		margin-top: 40px;
+	}
+
+	#rest_content {
+		width: calc(100% - 32px);
+		padding: 0 16px 16px 16px;
+/*		background: red;*/
+		position: relative;
+/*		z-index: -1;*/
+		overflow: hidden;
+	}
+
+	#rest_content_bg_top {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 200px;
+		z-index: -1;
+		background: rgb(255,255,255);
+		background: linear-gradient(0deg, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+	}
+
+	#rest_content_bg_bottom {
+		position: absolute;
+		top: 200px;
+		left: 0;
+		width: 100%;
+		height: 1400px;
+		background: rgb(255,255,255);
+		z-index: -1;
+	}
+
+	.about_text {
+		font-size: 20px;
+		line-height: 28px;
+		margin-left: 4px;
+		margin-bottom: 20px;
+	}
+
+	.card_wrapper {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		overflow: hidden;
+		border-radius: 20px;
+	}
+
+	.card_border {
+		border: 1px solid rgba(0,0,0,0.16);
+	}
+
+	#snippet_cards {
+		margin-top: 36px;
+		margin-left: 16px;
+		width: calc(100% - 32px);
+	}
+
+	.col {
+		float: left;
+	}
+
+	.card_content_collapsed {
+		position: relative;
+	}
+
+	.card_icon {
+		display: block;
+		width: 40px;
+		height: 40px;
+		margin-top: 16px;
+		margin-left: 16px;
+		font-size: 28px;
+	}
+
+	.card_icon_socket {
+		display: block;
+		width: 56px;
+		height: 56px;
+		margin-top: 12px;
+		margin-left: 12px;
+	}
+
+	.inner_head {
+		font-size: 20px;
+		margin-left: 18px;
+		margin-bottom: 2px;
+	}
+
+	.inner_head_small {
+		font-size: 16px;
+		font-weight: 500;
+		margin-left: 18px;
+		margin-bottom: 4px;
+	}
+
+	.text_centered {
+		margin-left: 0;
+		text-align: center;
+		font-weight: 400;
+		line-height: 24px;
+		/*height: 80px;
+		display: table-cell;
+		vertical-align: middle;*/
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.text_desc {
+		font-size: 15px;
+		margin-left: 18px;
+		color: rgba(0, 0, 0, 0.6);
+	}
+
+	h4.card_headline {
+		font-size: 12px;
+		font-weight: 500;
+		color: rgba(0,0,0,0.8);
+		margin-left: 16px;
+		margin-top: 14px;
+	}
+
+	.card_big_text {
+		font-size: 32px;
+		margin-left: 16px;
+	}
+
+	.card_small_text, .card_medium_text {
+		font-size: 14px;
+		line-height: 18px;
+		margin-left: 16px;
+		margin-top: 8px;
+		width: calc(100% - 32px);
+		color: rgba(0,0,0,0.6);
+	}
+
+	.card_medium_text {
+		font-size: 16px;
+		line-height: 23px;
+	}
+
+	.card_large_text {
+		font-size: 18px;
+		line-height: 23px;
+	}
+
+	.card_small_col {
+		font-size: 14px;
+		line-height: 22px;
+		width: auto;
+		float: left;
+		margin-right: 12px;
+	}
+
+	.card_summary_text {
+		font-size: 16px;
+		line-height: 19px;
+		margin-left: 16px;
+	}
+
+	.bottom_aligned {
+		position: absolute;
+		bottom: 16px;
+	}
+
+	.midish_aligned {
+		position: absolute;
+		bottom: 44px;
+	}
+
+	.card_background {
+		width: 100%;
+		height: 100%;
+		background-color: #fff;
+	}
+
+	.card_content_collapsed, .card_content_expanded {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+
+	.c_1 .card_content_expanded {
+		width: calc(100% + 16px);
+		height: auto;
+		max-height: 90vh;
+/*		padding-bottom: 16px;*/
+		overflow: scroll;
+		overscroll-behavior: contain;
+		/*left: auto;
+		right: 0;*/
+/*		background-color: rgba(255, 255, 255, 0.99);*/
+		z-index: 8;
+	}
+
+	.c_1_list .card_content_expanded {
+		width: calc(100% + 16px);
+		height: auto;
+		max-height: 90vh;
+/*		padding-bottom: 16px;*/
+		overflow: scroll;
+		overscroll-behavior: contain;
+		/*left: auto;
+		right: 0;*/
+/*		background-color: rgba(255, 255, 255, 0.99);*/
+		z-index: 8;
+	}
+
+	.c_23 .card_content_expanded {
+		width: 120%;
+		height: auto;
+		padding-bottom: 16px;
+/*		background-color: rgba(20, 250, 50, 0.3);*/
+		z-index: 8;
+/*		margin-top: 2px;*/
+	}
+
+	.c_13 .card_content_expanded {
+		width: 250%;
+		max-width: 280px;
+		height: auto;
+		padding-bottom: 16px;
+		/*left: auto;
+		right: 0;*/
+/*		background-color: rgba(255, 255, 255, 0.99);*/
+		z-index: 8;
+	}
+
+	.c_square .card_content_expanded {
+		width: 250%;
+		max-width: 200px;
+		height: auto;
+		padding-bottom: 16px;
+		z-index: 8;
+	}
+
+	.c_2square_rest .card_content_expanded {
+		width: 120%;
+		max-width: 200px;
+		height: auto;
+		padding-bottom: 16px;
+		z-index: 8;
+	}
+
+	.c_triplet .card_content_expanded {
+		width: 160%;
+		height: 80px;
+		padding-bottom: 16px;
+		z-index: 8;
+	}
+
+
+	.card {
+/*		background-color: #fff;*/
+		border-radius: 20px;
+		margin-bottom: 16px;
+		position: relative;
+	}
+
+	.card_in {
+		margin-left: 18px;
+	}
+	
+	.c_1 {
+		width: 100%;
+		height: 148px;
+	}
+
+	.c_1_list {
+		width: 100%;
+		height: 300px;
+	}
+
+	.c_23 {
+		width: 64%;
+		height: 148px;
+	}
+
+	.c_13 {
+		height: 148px;
+		width: calc(100% - 64% - 16px);
+	}
+
+	.align_l {
+		float: left;
+	}
+
+	.align_r {
+		float: right;
+	}
+
+	.c_square {
+		width: 80px;
+		height: 80px;
+		float: left;
+		margin-right: 16px;
+	}
+
+	.c_2square_rest {
+		height: 80px;
+		width: calc(100% - 160px - 32px);
+		float: left;
+	}
+
+	.c_triplet {
+		height: 80px;
+		width: calc(33.3% - 11px);
+		float: left;
+		margin-right: 16px;
+	}
+
+	.c_last {
+		margin-right: 0px;
+	}
+
+	#currency_code {
+		font-size: 24px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.currency_conversion {
+		font-size: 24px;
+		line-height: 30px;
+		margin-top: 18px;
+	}
+
+	#current_time {
+		margin-top: -2px;
+	}
+
+	.dup {
+		opacity: 0;
+	}
+
+	.getin {
+		opacity: 0;
+	}
+
+	#overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 5;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.text_intro {
+		margin-top: 36px;
+		margin-left: 16px;
+		width: calc(100% - 32px);
+	}
+
+	#tagline {
+		font-size: 36px;
+		font-weight: 300;
+		line-height: 40px;
+		color: hsla(357, 70%, 30%, 0.62);
+	}
+
+	#city_in_tagline {
+		color: #000;
+	}
+
+	.country {
+		font-size: 16px;
+		font-weight: 400;
+		text-decoration: none;
+		color: #000;
+		margin-bottom: 8px;
+		display: inline-block;
+	}
+
+	#ilu_and_meow {
+		width: calc(100% - 16px);
+		height: 260px;
+		margin-top: 32px;
+		margin-left: 16px;
+		position: relative;
+/*		overflow: hidden;*/
+	}
+
+	#city_ilu {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 20px;
+		background-size: cover;
+		border-radius: 20px 0 0 20px;
+	}
+
+	#city_ilu_blown {
+		position: fixed;
+		top: 60px;
+		left: -100px;
+		width: 200vw;
+		height: 60vh;
+		background-size: cover;
+		filter: blur(80px);
+		opacity: 0.16;
+		pointer-events: none;
+		z-index: -1;
+	}
+
+
+</style>
