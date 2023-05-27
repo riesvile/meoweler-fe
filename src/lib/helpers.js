@@ -1,11 +1,13 @@
 
 const economy = [
-	['🤑', 'Extremely affordable'],
+	['💸', 'Extremely affordable'],
 	['🛍️', 'Wallet friendly'],
 	['⚖️', 'Reasonable prices'],
-	['🥂', 'Expensive city'],
+	['🤑', 'Expensive city'],
 	['💎', 'Exorbitant prices'],
 ];
+
+const meow = ['😿','😾','😼','😸','😻', '🙀'];
 
 const biking = ['biking friendly', 'biking possible', 'biking hostile'];
 const walking = ['walkable', 'walkable -ish', 'walking hostile'];
@@ -18,5 +20,6 @@ export const scales = {
 	'biking': biking,
 	'walking': walking,
 	'lgbtq': lgbtq,
-	'internet': internet
+	'internet': internet,
+	'meow': meow
 }

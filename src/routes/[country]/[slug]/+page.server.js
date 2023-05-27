@@ -5,6 +5,7 @@ import top3 from '$lib/top3.json';
 import top4 from '$lib/top4.json';
 import top5 from '$lib/top5.json';
 import cities from '$lib/cunts.json';
+import countries from '$lib/countries.json';
 
 let latest_data = [
 	{
@@ -42,6 +43,17 @@ function get_city_content(country_short, slug, f){
 }
 
 
+function get_country_content(country_name){
+	let result = countries.filter(function(country){
+		let check = (country.name).toLowerCase();
+		return (check == country_name.toLowerCase());
+	});
+	console.log(country_name);
+	console.log(result);
+	return result
+}
+
+
 function which_file(population){
 
 	console.log('population = ' + population)
@@ -75,11 +87,13 @@ export const load = ({ params }) => {
 	let file_to_search = {};
 	file_to_search = check_population(params.slug);
 	let retreive = get_city_content(params.country, params.slug, file_to_search);
+	let retreive2 = get_country_content(retreive[0].country)
 	console.log(retreive);
     return {
     	coun: params.country,
         slug: params.slug,
-        d: retreive[0]
+        d: retreive[0],
+        c: retreive2[0]
     }
 
 	// if (check_population(params.slug)){

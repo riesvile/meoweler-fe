@@ -32,11 +32,11 @@
 	background: url('/assets/ico_wifi_bad.svg');
 }
 
-.bg_great .ico_wifi {
+.bg_great .ico_wifi, .bg_excellent .ico_wifi {
 	background: url('/assets/ico_wifi_great.svg');
 }
 
-.bg_meh .ico_wifi {
+.bg_meh .ico_wifi, .bg_good .ico_wifi {
 	background: url('/assets/ico_wifi_meh.svg');
 }
 
@@ -46,6 +46,62 @@
 
 .socket_a {
 	background: url('/assets/sockets/socket_a.svg');	
+}
+
+.socket_b {
+	background: url('/assets/sockets/socket_b.svg');	
+}
+
+.socket_c {
+	background: url('/assets/sockets/socket_c.svg');	
+}
+
+.socket_d {
+	background: url('/assets/sockets/socket_d.svg');	
+}
+
+.socket_e {
+	background: url('/assets/sockets/socket_e.svg');	
+}
+
+.socket_f {
+	background: url('/assets/sockets/socket_f.svg');	
+}
+
+.socket_g {
+	background: url('/assets/sockets/socket_g.svg');	
+}
+
+.socket_h {
+	background: url('/assets/sockets/socket_h.svg');	
+}
+
+.socket_i {
+	background: url('/assets/sockets/socket_i.svg');	
+}
+
+.socket_j {
+	background: url('/assets/sockets/socket_j.svg');	
+}
+
+.socket_k {
+	background: url('/assets/sockets/socket_k.svg');	
+}
+
+.socket_l {
+	background: url('/assets/sockets/socket_l.svg');	
+}
+
+.socket_m {
+	background: url('/assets/sockets/socket_m.svg');	
+}
+
+.socket_n {
+	background: url('/assets/sockets/socket_n.svg');	
+}
+
+.socket_o {
+	background: url('/assets/sockets/socket_o.svg');	
 }
 
 

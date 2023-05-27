@@ -3,7 +3,7 @@
   import MeowScore from '$lib/MeowScore.svelte'
   import Footer from '$lib/Footer.svelte'
   import anime from "animejs";
-  import { onMount } from 'svelte';
+  import { afterUpdate, onMount } from 'svelte';
   import { scales } from '$lib/helpers.js';
 
   let overlay_protection = '';
@@ -17,6 +17,11 @@
 		is_expanded = !is_expanded;
 		toggle_card(expanded_id);
 	}, false)
+  });
+
+  afterUpdate(() => {
+		// determine whether we should auto-scroll
+		// once the DOM is updated...
   });
 
   let expanded_id = '';

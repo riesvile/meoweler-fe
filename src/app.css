@@ -77,13 +77,14 @@ body {
 	height: 50px;
 }
 
-.bg_great .card_summary_text {
-	color: #117B0F;
-}
-
-.bg_great .card_background {
+.bg_great .card_background, .bg_excellent .card_background {
 	background: rgb(240,251,237);
 	background: linear-gradient(160deg, rgba(240,251,237,1) 0%, rgba(255,255,255,1) 100%);
+}
+
+.bg_good .card_background {
+	background: rgb(247,251,237);
+	background: linear-gradient(160deg, rgba(247,251,237,1) 0%, rgba(255,255,255,1) 100%);
 }
 
 .bg_meh .card_background {
@@ -101,19 +102,23 @@ body {
 /*	background: #0ff !important;*/
 }
 
-.text_great {
+.text_excellent, .bg_excellent .card_summary_text {
+	color: #00A32E !important;
+}
+
+.text_great, .bg_great .card_summary_text {
 	color: #117B0F !important;
 }
 
-.text_good {
+.text_good, .bg_good .card_summary_text {
 	color: #667B0F !important;
 }
 
-.text_meh {
+.text_meh, .bg_meh .card_summary_text {
 	color: #A97818 !important;
 }
 
-.text_bad {
+.text_bad, .bg_bad .card_summary_text {
 	color: #7B0F0F !important;
 }
 

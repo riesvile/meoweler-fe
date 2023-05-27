@@ -3,23 +3,51 @@
   import MeowScore from '$lib/MeowScore.svelte'
   import Footer from '$lib/Footer.svelte'
   import anime from "animejs";
-  import { onMount } from 'svelte';
+  import { afterUpdate, onMount } from 'svelte';
   import { scales } from '$lib/helpers.js';
+  import sockets from '$lib/sockets.json';
 
   let overlay_protection = '';
   let disabledScroll = false;
+  let internetRating = 0;
+  let internetString = '';
+  let bikeRating = 0;
+  let bikeString = ''
+  let walkRating = 0;
+  let walkString = ''
+  let lgbtqRating = 0;
+  let lgbtqString = ''
   // console.log(scales);
 
   onMount(() => {
   	console.log('moiduhsfd');
   	overlay_protection = document.getElementById('overlay');
   	overlay_protection.addEventListener('click', () => {
-		is_expanded = !is_expanded;
-		toggle_card(expanded_id);
-		// meow_data = data.d.meowscore_object;
-		// meowscore = data.d.meowscore;
-		// console.log('meowscore = ' + meowscore)
-	}, false)
+			is_expanded = !is_expanded;
+			toggle_card(expanded_id);
+			// meow_data = data.d.meowscore_object;
+			// meowscore = data.d.meowscore;
+			// console.log('meowscore = ' + meowscore);
+		}, false)
+		//let temp_internet_rating = data.d.net_speed[0] + data.d.net_availability[0]*2 + data.d.net_coverage[0];
+		//console.log('here');
+		//console.log('net = ' + (temp_internet_rating / 4));
+		//internetRating = temp_internet_rating / 4;
+		//console.log(internetRating)
+  });
+
+  afterUpdate(() => {
+		let temp_internet_rating = data.d.net_speed[0] + data.d.net_availability[0]*2 + data.d.net_coverage[0];
+		console.log('here');
+		console.log('net = ' + (temp_internet_rating / 4));
+		internetRating = temp_internet_rating / 4;
+		if (internetRating >= 8){ internetString = scales.internet[0] }
+		else if (internetRating >= 7){ internetString = scales.internet[1] }
+		else if (internetRating >= 6){ internetString = scales.internet[2] }
+		else if (internetRating >= 5){ internetString = scales.internet[3] }
+		else { internetString = scales.internet[4] }
+		console.log(internetRating)
+		console.log(internetString)
   });
 
   let expanded_id = '';
@@ -59,6 +87,27 @@
 
   function expand_card(el){
 
+  }
+
+  function internet_scale(num){
+  	if (num >= 9) return 'excellent';
+  	if (num >= 7) return 'great';
+  	if (num >= 6) return 'good';
+  	if (num >= 4) return 'meh';
+  	if (num < 4) return 'bad';
+  }
+
+  function others_scale(num){
+  	// returns index of array value in helpers.js file
+  	if (num >= 8) return 0;
+  	if (num >= 5) return 1;
+  	if (num < 5) return 2;
+  }
+
+  function others_card_string(num){
+  	if (num >= 8) return 'great';
+  	if (num >= 5) return 'meh';
+  	if (num < 5) return 'bad';
   }
 
   function overlay(state){
@@ -130,7 +179,7 @@
   	let anim_getin = wrap_el.getElementsByClassName('getin');
   	console.log('offsets:');
   	console.log(offsets);
-  	// console.log(bcr_expanded)
+  	console.log(bcr_expanded)
   	// console.log(bcr_main);
 
 
@@ -191,7 +240,10 @@
 	  		duration: 150,
 	  		easing: 'easeOutQuad',
 	  		complete: function(anim) {
-			  Object.assign(wrap_el.style, card_style_reset)
+			  Object.assign(wrap_el.style, card_style_reset);
+			  expanded_el.style.height = 'auto';
+			  expanded_el.style.paddingBottom = '16px';
+			  if (element_id == 'bike' || element_id == 'walk' || element_id == 'lgbtq') expanded_el.style.height = '80px';
 			}
 	  	})
 
@@ -300,14 +352,14 @@
 		<div class="card_wrapper bg_great">
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
-				<span class='ico_emoji card_icon keep'>🤑</span>
-				<p class='card_summary_text midish_aligned getout'>Extremely affordable</p>
+				<span class='ico_emoji card_icon keep'>{scales.economy[data.d.economy.economy - 1][0]}</span>
+				<p class='card_summary_text midish_aligned getout'>{scales.economy[data.d.economy.economy - 1][1]}</p>
 				<p class='card_small_text text_great bottom_aligned getout'>Big mac:</p>
 			</div>
 			<div class='card_content_expanded'>
 				<span class='ico_emoji card_icon dup'>🤑</span>
-				<p class='card_medium_text text_great getin'>The shopping and economy in Prague are generally affordable for a visiting cat. However, there are some expensive areas and tourist traps that should be avoided in order to save paws. Prices for food, drinks, and souvenirs are reasonable.</p>
-				<p class='card_medium_text text_great getin'>Visit local markets for cheaper food and avoid restaurants in touristy areas.</p>
+				<p class='card_medium_text text_great getin'>{data.d.economy.reason}</p>
+				<p class='card_medium_text text_great getin'>{data.d.economy.tips}</p>
 				<div class='space_xs'></div>
 			</div>
 		</div>
@@ -317,14 +369,14 @@
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
 				<h4 class='card_headline keep'>Usual visit duration</h4>
-				<p class='card_big_text keep'>3–4 days</p>
-				<p class='card_small_text bottom_aligned getout'>Rich history, compact size, popular destination</p>
+				<p class='card_big_text keep'>{data.d.visit_duration}</p>
+				<p class='card_small_text bottom_aligned getout'>{data.d.duration_reason_short}</p>
 			</div>
 			<div class='card_content_expanded'>
 				<h4 class='card_headline dup'>Usual visit duration</h4>
-				<p class='card_big_text dup'>3–4 days</p>
-				<p class='card_small_text getin'>Rich history, compact size, popular destination</p>
-				<p class='card_small_text getin'>Many tourists stay for a week or more to truly explore the city and its surroundings.</p>
+				<p class='card_big_text dup'>{data.d.visit_duration}</p>
+				<p class='card_small_text getin'>{data.d.duration_reason_short}</p>
+				<p class='card_small_text getin'>{data.d.duration_reason_long}</p>
 			</div>
 		</div>
 	</div>
@@ -334,35 +386,35 @@
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
 				<h4 class='card_headline keep'>Tipping</h4>
-				<p class='card_big_text keep'>10–15%</p>
-				<p class='card_small_text bottom_aligned getout'>Tipping appreciated, not mandatory, mostly in restaurants</p>
+				<p class='card_big_text keep'>{data.d.tipping_range}</p>
+				<p class='card_small_text bottom_aligned getout'>{data.d.tipping_comment}</p>
 			</div>
 			<div class='card_content_expanded'>
 				<h4 class='card_headline dup'>Tipping</h4>
-				<p class='card_big_text dup'>10–15%</p>
-				<p class='card_small_text getin'>Tipping appreciated, not mandatory, mostly in restaurants</p>
-				<p class='card_small_text getin'>Cash is preferred. Splitting the bill is not common. Etiquette dictates handing cash to the waiter discreetly.</p>
+				<p class='card_big_text dup'>{data.d.tipping_range}</p>
+				<p class='card_small_text getin'>{data.d.tipping_comment}</p>
+				<p class='card_small_text getin'>{data.d.tipping_payculture}</p>
 			</div>
 		</div>
 	</div>
 	<div id='internet' class='card c_13 align_r' on:click={(event) => click_t(event)}>
-		<div class="card_wrapper bg_great">
+		<div class="card_wrapper bg_{internetString}">
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
 				<span class='ico_wifi card_icon keep'></span>
-				<p class='card_summary_text bottom_aligned getout'>Excellent internet situation</p>
+				<p class='card_summary_text bottom_aligned getout'>{internetString} internet situation</p>
 			</div>
 			<div class='card_content_expanded'>
 				<span class='ico_wifi card_icon dup'></span>
 				<div class='space_s'></div>
-				<p id='speed_head' class='inner_head text_great getin'>Excellent Speed</p>
-				<p id='speed_desc' class='text_desc getin'>Fast and reliable in most areas</p>
+				<p id='speed_head' class='inner_head text_{internet_scale(data.d.net_speed[0])} getin'>{internet_scale(data.d.net_speed[0])} Speed</p>
+				<p id='speed_desc' class='text_desc getin'>{data.d.net_speed[1]}</p>
 				<div class='space_s'></div>
-				<p id='avail_head' class='inner_head text_great getin'>Excellent Availability</p>
-				<p id='avail_desc' class='text_desc getin'>Fast and reliable in most areas</p>
+				<p id='avail_head' class='inner_head text_{internet_scale(data.d.net_availability[0])} getin'>{internet_scale(data.d.net_availability[0])} Availability</p>
+				<p id='avail_desc' class='text_desc getin'>{data.d.net_availability[1]}</p>
 				<div class='space_s'></div>
-				<p id='cell_head' class='inner_head text_good getin'>Good Cellular</p>
-				<p id='cell_desc' class='text_desc getin'>Good coverage and fast speeds on major networks</p>
+				<p id='cell_head' class='inner_head text_{internet_scale(data.d.net_coverage[0])} getin'>{internet_scale(data.d.net_coverage[0])} Cellular</p>
+				<p id='cell_desc' class='text_desc getin'>{data.d.net_coverage[1]}</p>
 				<div class='space_xs'></div>
 			</div>
 		</div>
@@ -372,13 +424,13 @@
 		<div class="card_wrapper">
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
-				<span id='socket_type' class='socket_a card_icon_socket keep'></span>
+				<span id='socket_type' class='socket_{data.c.socket_type.toLowerCase()} card_icon_socket keep'></span>
 			</div>
 			<div class='card_content_expanded'>
-				<span id='socket_type' class='socket_a card_icon_socket dup'></span>
+				<span id='socket_type' class='socket_{data.c.socket_type.toLowerCase()} card_icon_socket dup'></span>
 				<div class='space_s'></div>
-				<p id='socket_head' class='inner_head_small getin'>Electric socket type J</p>
-				<p id='socket_desc' class='text_desc getin'>Used in Switzerland and Liechtenstein</p>
+				<p id='socket_head' class='inner_head_small getin'>Electric socket type {data.c.socket_type}</p>
+				<p id='socket_desc' class='text_desc getin'>{sockets["type-" + data.c.socket_type]}</p>
 				<div class='space_xs'></div>
 			</div>
 		</div>
@@ -388,10 +440,10 @@
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
 				<span id='socket_type' class='ico_socket_j card_icon keep'></span>
-				<span id='currency_code' class='getout'>CHF</span>
+				<span id='currency_code' class='getout'>{data.c.currency_code}</span>
 			</div>
 			<div class='card_content_expanded'>
-				<p class='currency_conversion card_in getin'><span id='currency_base'>1 CHF</span> = <br><span id='currency_target'>1.104 USD</span></p>
+				<p class='currency_conversion card_in getin'><span id='currency_base'>1 {data.c.currency_code}</span> = <br><span id='currency_target'>1.104 USD</span></p>
 				<div class='space_s'></div>
 				<a href='#' id='currency_conversion_link' class='external_link card_in getin'>Currency converter</a>
 				<div class='space_xs'></div>
@@ -416,37 +468,37 @@
 	</div>
 
 	<div id='bike' class='card c_triplet' on:click={(event) => click_t(event)}>
-		<div class="card_wrapper bg_great">
+		<div class="card_wrapper bg_{others_card_string(data.d.bike_rating[0])}">
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
-				<h4 class='inner_head text_centered text_great getout'>Biking friendly</h4>
+				<h4 class='inner_head text_centered text_{others_card_string(data.d.bike_rating[0])} getout'>{scales.biking[others_scale(data.d.bike_rating[0])]}</h4>
 			</div>
 			<div class='card_content_expanded'>
-				<p class='card_large_text text_centered text_great getin'>Some bike paths</p>
+				<p class='card_large_text text_centered text_{others_card_string(data.d.bike_rating[0])} getin'>{data.d.bike_rating[1]}</p>
 			</div>
 		</div>
 	</div>
 
 	<div id='walk' class='card c_triplet' on:click={(event) => click_t(event)}>
-		<div class="card_wrapper bg_meh">
+		<div class="card_wrapper bg_{others_card_string(data.d.walk_rating[0])}">
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
-				<h4 class='inner_head text_centered text_meh getout'>Walkable -ish</h4>
+				<h4 class='inner_head text_centered text_{others_card_string(data.d.walk_rating[0])} getout'>{scales.walking[others_scale(data.d.walk_rating[0])]}</h4>
 			</div>
 			<div class='card_content_expanded'>
-				<p class='card_large_text text_centered text_meh getin'>Pedestrian-friendly city center</p>
+				<p class='card_large_text text_centered text_{others_card_string(data.d.walk_rating[0])} getin'>{data.d.walk_rating[1]}</p>
 			</div>
 		</div>
 	</div>
 
 	<div id='lgbtq' class='card c_triplet c_last' on:click={(event) => click_t(event)}>
-		<div class="card_wrapper bg_bad">
+		<div class="card_wrapper bg_{others_card_string(data.d.lgbtq_rating[0])}">
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
-				<h4 class='inner_head text_centered text_bad getout'>LGBTQ hostile</h4>
+				<h4 class='inner_head text_centered text_{others_card_string(data.d.lgbtq_rating[0])} getout'>{scales.lgbtq[others_scale(data.d.lgbtq_rating[0])]}</h4>
 			</div>
 			<div class='card_content_expanded'>
-				<p class='card_large_text text_centered text_bad getin'>Progressive laws</p>
+				<p class='card_large_text text_centered text_{others_card_string(data.d.lgbtq_rating[0])} getin'>{data.d.lgbtq_rating[1]}</p>
 			</div>
 		</div>
 	</div>
@@ -458,8 +510,8 @@
 <div id='rest_content'>
 	<div id="rest_content_bg_top"></div>
 	<div id="rest_content_bg_bottom"></div>
-	<p class='about_text'>As cats prowling the streets of a majestic cat castle, we were in awe of the historic architecture and the abundance of cat cafes. Meow-nificent!</p>
-	<p class="about_text">But beware of the cat-sized crowds and hair-raising maze of alleyways. Nine lives may not be enough to explore it all!</p>
+	<p class='about_text'>{data.d.summary_p1}</p>
+	<p class="about_text">{data.d.summary_p2}</p>
 
 	<h3 class='content_headline'>Things to do</h3>
 
@@ -469,48 +521,48 @@
 			<div class='card_content_collapsed'>
 				<h4 class='card_headline keep'>The mainstream</h4>
 				<div class='list_row getout'>
-					<span class='list_emoji'>🏰</span><h5 class='list_head'>Zurich Old Town</h5>
+					<span class='list_emoji'>{data.d.ttd_emojis[0]}</span><h5 class='list_head'>{data.d.ttd_names[0]}</h5>
 				</div>
 				<div class='list_row getout'>
-					<span class='list_emoji'>🌊</span><h5 class='list_head'>Lake Zurich</h5>
+					<span class='list_emoji'>{data.d.ttd_emojis[1]}</span><h5 class='list_head'>{data.d.ttd_names[1]}</h5>
 				</div>
 				<div class='list_row getout'>
-					<span class='list_emoji'>🖼️</span><h5 class='list_head'>Swiss national museum</h5>
+					<span class='list_emoji'>{data.d.ttd_emojis[2]}</span><h5 class='list_head'>{data.d.ttd_names[2]}</h5>
 				</div>
 				<div class='list_row getout'>
-					<span class='list_emoji'>🛍️</span><h5 class='list_head'>Bahnhofstrasse</h5>
+					<span class='list_emoji'>{data.d.ttd_emojis[3]}</span><h5 class='list_head'>{data.d.ttd_names[3]}</h5>
 				</div>
 				<div class='list_row getout'>
-					<span class='list_emoji'>🦒</span><h5 class='list_head'>Zurich Zoo</h5>
+					<span class='list_emoji'>{data.d.ttd_emojis[4]}</span><h5 class='list_head'>{data.d.ttd_names[4]}</h5>
 				</div>
 			</div>
 			<div class='card_content_expanded'>
 				<div id='close_ttds' class='close_card getin'><span class='ico_close'></span></div>
 				<h4 class='card_headline dup'>The mainstream</h4>
 				<div class='list_row getin'>
-					<span class='list_emoji'>🏰</span><h5 class='list_head_exp'>Zurich Old Town</h5>
-					<p id='ttd1' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
-					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+					<span class='list_emoji'>{data.d.ttd_emojis[0]}</span><h5 class='list_head_exp'>{data.d.ttd_names[0]}</h5>
+					<p id='ttd1' class='list_para getin'>{data.d.ttd_descriptions[0]}</p>
+					<a href='https://www.google.com/maps/search/?api=1&query={data.d.ttd_names[0] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>🌊</span><h5 class='list_head_exp'>Lake Zurich</h5>
-					<p id='ttd2' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
-					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+					<span class='list_emoji'>{data.d.ttd_emojis[1]}</span><h5 class='list_head_exp'>{data.d.ttd_names[1]}</h5>
+					<p id='ttd2' class='list_para getin'>{data.d.ttd_descriptions[1]}</p>
+					<a href='https://www.google.com/maps/search/?api=1&query={data.d.ttd_names[1] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>🖼️</span><h5 class='list_head_exp'>Swiss national museum</h5>
-					<p id='ttd3' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
-					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+					<span class='list_emoji'>{data.d.ttd_emojis[2]}</span><h5 class='list_head_exp'>{data.d.ttd_names[2]}</h5>
+					<p id='ttd3' class='list_para getin'>{data.d.ttd_descriptions[2]}</p>
+					<a href='https://www.google.com/maps/search/?api=1&query={data.d.ttd_names[2] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>🛍️</span><h5 class='list_head_exp'>Bahnhofstrasse</h5>
-					<p id='ttd4' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
-					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+					<span class='list_emoji'>{data.d.ttd_emojis[3]}</span><h5 class='list_head_exp'>{data.d.ttd_names[3]}</h5>
+					<p id='ttd4' class='list_para getin'>{data.d.ttd_descriptions[3]}</p>
+					<a href='https://www.google.com/maps/search/?api=1&query={data.d.ttd_names[3] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>🦒</span><h5 class='list_head_exp'>Zurich Zoo</h5>
-					<p id='ttd5' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
-					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+					<span class='list_emoji'>{data.d.ttd_emojis[4]}</span><h5 class='list_head_exp'>{data.d.ttd_names[4]}</h5>
+					<p id='ttd5' class='list_para getin'>{data.d.ttd_descriptions[4]}</p>
+					<a href='https://www.google.com/maps/search/?api=1&query={data.d.ttd_names[4] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class="space_xl"></div>
 				<div class="space_l"></div>
@@ -524,48 +576,48 @@
 			<div class='card_content_collapsed'>
 				<h4 class='card_headline keep'>Off the beaten path</h4>
 				<div class='list_row getout'>
-					<span class='list_emoji'>🏰</span><h5 class='list_head'>Zurich Old Town</h5>
+					<span class='list_emoji'>{data.d.gems_emojis[0]}</span><h5 class='list_head'>{data.d.gems_names[0]}</h5>
 				</div>
 				<div class='list_row getout'>
-					<span class='list_emoji'>🌊</span><h5 class='list_head'>Lake Zurich</h5>
+					<span class='list_emoji'>{data.d.gems_emojis[1]}</span><h5 class='list_head'>{data.d.gems_names[1]}</h5>
 				</div>
 				<div class='list_row getout'>
-					<span class='list_emoji'>🖼️</span><h5 class='list_head'>Swiss national museum</h5>
+					<span class='list_emoji'>{data.d.gems_emojis[2]}</span><h5 class='list_head'>{data.d.gems_names[2]}</h5>
 				</div>
 				<div class='list_row getout'>
-					<span class='list_emoji'>🛍️</span><h5 class='list_head'>Bahnhofstrasse</h5>
+					<span class='list_emoji'>{data.d.gems_emojis[3]}</span><h5 class='list_head'>{data.d.gems_names[3]}</h5>
 				</div>
 				<div class='list_row getout'>
-					<span class='list_emoji'>🦒</span><h5 class='list_head'>Zurich Zoo</h5>
+					<span class='list_emoji'>{data.d.gems_emojis[4]}</span><h5 class='list_head'>{data.d.gems_names[4]}</h5>
 				</div>
 			</div>
 			<div class='card_content_expanded'>
 				<div id='close_gems' class='close_card getin'><span class='ico_close'></span></div>
 				<h4 class='card_headline dup'>Off the beaten path</h4>
 				<div class='list_row getin'>
-					<span class='list_emoji'>🏰</span><h5 class='list_head_exp'>Zurich Old Town</h5>
-					<p id='ttd1' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
-					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+					<span class='list_emoji'>{data.d.gems_emojis[0]}</span><h5 class='list_head_exp'>{data.d.gems_names[0]}</h5>
+					<p id='ttd1' class='list_para getin'>{data.d.gems_descriptions[0]}</p>
+					<a href='https://www.google.com/maps/search/?api=1&query={data.d.gems_names[0] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>🌊</span><h5 class='list_head_exp'>Lake Zurich</h5>
-					<p id='ttd2' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
-					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+					<span class='list_emoji'>{data.d.gems_emojis[1]}</span><h5 class='list_head_exp'>{data.d.gems_names[1]}</h5>
+					<p id='ttd2' class='list_para getin'>{data.d.gems_descriptions[1]}</p>
+					<a href='https://www.google.com/maps/search/?api=1&query={data.d.gems_names[1] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>🖼️</span><h5 class='list_head_exp'>Swiss national museum</h5>
-					<p id='ttd3' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
-					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+					<span class='list_emoji'>{data.d.gems_emojis[2]}</span><h5 class='list_head_exp'>{data.d.gems_names[2]}</h5>
+					<p id='ttd3' class='list_para getin'>{data.d.gems_descriptions[2]}</p>
+					<a href='https://www.google.com/maps/search/?api=1&query={data.d.gems_names[2] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>🛍️</span><h5 class='list_head_exp'>Bahnhofstrasse</h5>
-					<p id='ttd4' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
-					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+					<span class='list_emoji'>{data.d.gems_emojis[3]}</span><h5 class='list_head_exp'>{data.d.gems_names[3]}</h5>
+					<p id='ttd4' class='list_para getin'>{data.d.gems_descriptions[3]}</p>
+					<a href='https://www.google.com/maps/search/?api=1&query={data.d.gems_names[3] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>🦒</span><h5 class='list_head_exp'>Zurich Zoo</h5>
-					<p id='ttd5' class='list_para getin'>Lively market where you can find the freshest fish and seafood in Tokyo. The purr-fect spot for cats who love sushi and watching the hustle and bustle of the fishmongers.</p>
-					<a href='#' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
+					<span class='list_emoji'>{data.d.gems_emojis[4]}</span><h5 class='list_head_exp'>{data.d.gems_names[4]}</h5>
+					<p id='ttd5' class='list_para getin'>{data.d.gems_descriptions[4	]}</p>
+					<a href='https://www.google.com/maps/search/?api=1&query={data.d.gems_names[4] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class="space_xl"></div>
 				<div class="space_l"></div>
@@ -581,20 +633,21 @@
 
 <div id='mindful_master_wrap'>
 	<div id='mindful_meowler_wrap'>
-		<div class='meow_tip'>
-			<div class='meow_tip_img'></div>
-			<h4 class='meow_tip_head'>Public transport</h4>
-			<p class='meow_desc'>When using public transport in Zurich, be sure to purchase and validate tickets before boarding. Ticket inspections are frequent, and fines for fare evasion are very steep.</p>
-		</div>
-		<div class='meow_tip'>
-			<div class='meow_tip_img'></div>
-			<h4 class='meow_tip_head'>dsfc transport</h4>
-			<p class='meow_desc'>Tokyo is home to over 100 cat cafes, where you can pet and play with cats while enjoying a cup of tea. Some cafes even have cat-themed food and drinks!</p>
-		</div>
+		{#each Object.entries(data.d.mindful_meoweler) as [tipnum, tip], index}
+		{#if (Object.entries(data.d.mindful_meoweler).length == (index + 1))}
 		<div class='meow_tip tip_last'>
 			<div class='meow_tip_img'></div>
-			<h4 class='meow_tip_head'>aflk transport</h4>
+			<h4 class='meow_tip_head'>{tip[0]}</h4>
+			<p class='meow_desc'>{tip[1]}</p>
 		</div>
+		{:else}
+		<div class='meow_tip'>
+			<div class='meow_tip_img'></div>
+			<h4 class='meow_tip_head'>{tip[0]}</h4>
+			<p class='meow_desc'>{tip[1]}</p>
+		</div>
+		{/if}
+		{/each}
 	</div>
 </div>
 
@@ -610,7 +663,9 @@
 
 <style>
 
-
+	#socket_desc {
+		padding-right: 8px;
+	}
 
 	#mindful_master_wrap {
 		/*white-space: nowrap;
@@ -782,6 +837,9 @@
 		font-weight: 400;
 		line-height: 32px;
 		color: rgba(0, 0, 0, 0.96);
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
 	}
 
 	h5.list_head_exp {
@@ -789,12 +847,16 @@
 		font-weight: 400;
 		line-height: 32px;
 		color: rgba(0, 0, 0, 0.96);
+		width: calc(100% - 60px);
+		float: left;
+		margin-bottom: 8px;
 	}
 
 	.list_row {
 		width: 100%;
 		height: 32px;
 		margin-top: 16px;
+/*		white-space: nowrap;*/
 /*		transition: all 0.2s;*/
 	}
 
@@ -903,6 +965,10 @@
 		margin-bottom: 2px;
 	}
 
+	.inner_head::first-letter {
+		text-transform: uppercase;
+	}
+
 	.inner_head_small {
 		font-size: 16px;
 		font-weight: 500;
@@ -922,6 +988,7 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+		width: calc(100% - 16px);
 	}
 
 	.text_desc {
@@ -941,6 +1008,10 @@
 	.card_big_text {
 		font-size: 32px;
 		margin-left: 16px;
+	}
+
+	.card_big_text::first-letter {
+		text-transform: uppercase;
 	}
 
 	.card_small_text, .card_medium_text {
@@ -974,6 +1045,11 @@
 		font-size: 16px;
 		line-height: 19px;
 		margin-left: 16px;
+		padding-right: 10px;
+	}
+
+	.card_summary_text::first-letter {
+		text-transform: uppercase;
 	}
 
 	.bottom_aligned {

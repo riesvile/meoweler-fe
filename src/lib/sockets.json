@@ -1,0 +1,17 @@
+{
+  "type-A": "Common in North and Central America, and Japan. Mind voltage difference, especially for Japan (100V).",
+  "type-B": "Common in North and Central America. Safer because of grounding pin, mind voltage differences.",
+  "type-C": "Common in Europe, South America, and Asia. Non-grounded, 2-pin plug, accepts Type C & Type E&F (non-grounded variant).",
+  "type-D": "Common in India. Old British standard BS 546, requires grounded receptacle, doesn't accept other plug types.",
+  "type-E": "Common in France, Poland, Belgium, Czechia, Slovakia. Rounded plug with grounding clip, doesn't accept Type F.",
+  "type-F": "Common in Europe (except UK and Ireland), Korea, Indonesia, Russia. Accepts Type C, Type E (if pinhole exists).",
+  "type-G": "Common in UK, Ireland, Malta, Malaysia, Singapore. Unique three rectangular pins design, doesn't accept other types.",
+  "type-H": "Exclusive to Israel, Palestine. Old British standard BS 546, includes a grounding pin.",
+  "type-I": "Common in Australia, New Zealand, Argentina, China. Doesn't accept other types, mind China's lower voltage (220V).",
+  "type-J": "Common in Switzerland, Liechtenstein, Rwanda. Accepts Type C but doesn't accept other types.",
+  "type-K": "Common in Denmark, Greenland. Grounded, doesn't accept other types except Type C (non-grounded).",
+  "type-L": "Common in Italy, Chile. Non-interchangeable 3-pin and 2-pin design, only 2-pin variant accepts Type C.",
+  "type-M": "Common in South Africa, Swaziland, Lesotho. Large 3-pin design, doesn't accept other types.",
+  "type-N": "Common in Brazil. Both grounded and non-grounded variants, accepts Type C (non-grounded).",
+  "type-O": "Common in Thailand. Grounded, doesn't accept other types except Type C (non-grounded)."
+}

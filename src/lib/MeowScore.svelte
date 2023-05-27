@@ -3,6 +3,7 @@
 	
 	import { createEventDispatcher } from 'svelte';
 	import anime from "animejs";
+	import { scales } from '$lib/helpers.js';
 
 	export let meow_expanded;
 	export let meow_data;
@@ -121,42 +122,61 @@
 
 	}
 
+	function meow_emoji(num){
+		if (num >= 9) return scales.meow[4]
+		if (num >= 7) return scales.meow[3]
+		if (num >= 5) return scales.meow[2]
+		if (num >= 4) return scales.meow[1]
+		if (num < 4) return scales.meow[0]
+	}
+
+	function meowscore_emoji(num){
+		if (num > 100) return scales.meow[5];
+		if (num >= 91) return scales.meow[4];
+		if (num >= 81) return scales.meow[3];
+		if (num >= 71) return scales.meow[2];
+		if (num >= 61) return scales.meow[1];
+		return scales.meow[0];
+	}
+
+
+
 </script>
 
 
 <div id='meow_score'>
 	<div id='meow_score_summary' on:click={(event) => score_details()}>
-		<span id='meow_summary_emoji'>😼</span>{meowscore}<span class='dimmed'>/100</span>
+		<span id='meow_summary_emoji'>{meowscore_emoji(meowscore)}</span>{meowscore}<span class='dimmed'>/100</span>
 	</div>
 	<div id='meow_what'>What is MeowScore?</div>
 	<div id='meow_score_expanded'>
 		<div class='meow_score_item'>
 			<span class='score_item_text'>🐈 Cats in the city</span>
-			<span class='score_item_rating'>😼</span>
+			<span class='score_item_rating'>{meow_emoji(meow_data['cats-in-city'][0])}</span>
 		</div>
 		<div class='meow_score_item'>
 			<span class='score_item_text'>☀️ Sun-soaked days</span>
-			<span class='score_item_rating'>😼</span>
+			<span class='score_item_rating'>{meow_emoji(meow_data['sunny-days'][0])}</span>
 		</div>
 		<div class='meow_score_item'>
 			<span class='score_item_text'>🚗 Traffic density</span>
-			<span class='score_item_rating'>😼</span>
+			<span class='score_item_rating'>{meow_emoji(meow_data['traffic'][0])}</span>
 		</div>
 		<div class='meow_score_item'>
 			<span class='score_item_text'>🔈 Noisiness</span>
-			<span class='score_item_rating'>😼</span>
+			<span class='score_item_rating'>{meow_emoji(meow_data['noisiness'][0])}</span>
 		</div>
 		<div class='meow_score_item'>
 			<span class='score_item_text'>📸 Views and Sightseeing</span>
-			<span class='score_item_rating'>😻</span>
+			<span class='score_item_rating'>{meow_emoji(meow_data['sightseeing-and-views'][0])}</span>
 		</div>
 		<div class='meow_score_item'>
 			<span class='score_item_text'>🌳 Parks and greenery</span>
-			<span class='score_item_rating'>😼</span>
+			<span class='score_item_rating'>{meow_emoji(meow_data['parks-and-greenery'][0])}</span>
 		</div>
 		<div class='meow_score_item'>
 			<span class='score_item_text'>👮‍♂️ Safety</span>
-			<span class='score_item_rating'>😻</span>
+			<span class='score_item_rating'>{meow_emoji(meow_data['safety'][0])}</span>
 		</div>
 		<div class='space_s'></div>
 	</div>
