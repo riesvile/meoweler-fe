@@ -4,8 +4,15 @@ import top2 from '$lib/top2.json';
 import top3 from '$lib/top3.json';
 import top4 from '$lib/top4.json';
 import top5 from '$lib/top5.json';
+import top6 from '$lib/top6.json';
+import top7 from '$lib/top7.json';
+import top8 from '$lib/top8.json';
+import top9 from '$lib/top9.json';
+import top10 from '$lib/top10.json';
+import top11 from '$lib/top11.json';
 import cities from '$lib/cunts.json';
 import countries from '$lib/countries.json';
+import ll from '$lib/latlng.json';
 
 let latest_data = [
 	{
@@ -27,7 +34,14 @@ let file_map = {
 	p4000000: top2,
 	p2000000: top3,
 	p1400000: top4,
-	p1000000: top5
+	p1000000: top5,
+	p800000: top6,
+	p600000: top7,
+	p500000: top8,
+	p450000: top9,
+	p400000: top10,
+	p350000: top11
+
 }
 
 
@@ -42,6 +56,16 @@ function get_city_content(country_short, slug, f){
 	return result
 }
 
+function get_latlng(country_short, slug){
+	let result2 = ll.filter(function(city){
+		let check = (city.ci).toLowerCase();
+		let check2 = (city.co).toLowerCase().substring(0,3) + city.co.slice(-1);
+		return (check == slug && check2 == country_short);
+	});
+	// console.log('latlng result = ');
+	// console.log(result2);
+	return result2;
+}
 
 function get_country_content(country_name){
 	let result = countries.filter(function(country){
@@ -63,6 +87,12 @@ function which_file(population){
 	if (population > 2000000) return 'p2000000';
 	if (population > 1400000) return 'p1400000';
 	if (population > 1000000) return 'p1000000';
+	if (population > 800000) return 'p800000';
+	if (population > 600000) return 'p600000';
+	if (population > 500000) return 'p500000';
+	if (population > 450000) return 'p450000';
+	if (population > 400000) return 'p400000';
+	if (population > 350000) return 'p350000';
 
 }
 
@@ -87,13 +117,17 @@ export const load = ({ params }) => {
 	let file_to_search = {};
 	file_to_search = check_population(params.slug);
 	let retreive = get_city_content(params.country, params.slug, file_to_search);
-	let retreive2 = get_country_content(retreive[0].country)
+	let retreive2 = get_country_content(retreive[0].country);
+	// console.log('huhuh');
+	let coor = get_latlng(params.country, params.slug);
+	console.log('coor = ' + coor[0].lat);
 	console.log(retreive);
     return {
     	coun: params.country,
         slug: params.slug,
         d: retreive[0],
-        c: retreive2[0]
+        c: retreive2[0],
+        coor: [coor[0].lat, coor[0].lng]
     }
 
 	// if (check_population(params.slug)){

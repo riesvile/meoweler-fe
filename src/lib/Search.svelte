@@ -109,7 +109,7 @@ function search_trigger(e){
 
 		{#each render_results as { ci, co, p }, i}
 			<a href='/{co.toLowerCase().substring(0,3) + co.slice(-1)}/{ci.toLowerCase()}' class='search_result' on:click={(event) => redirect_to(ci.replace(/\s+/g, '-').toLowerCase())}>
-				<div class='result_img test_img' style="background-image: url(/assets/mini/ilu_{ci.replace(/\s+/g, '-').toLowerCase()}.jpg), url(/assets/mini/ilu_fallback.jpg);"></div>
+				<div class='result_img test_img' style="background-image: url(/assets/mini/{ci.replace(/\s+/g, '').toLowerCase() + '-' + co.toLowerCase().substring(0,3) + co.slice(-1) + '-t'}.png), url(/assets/mini/random-t.png);"></div>
 				<p class='result_text'><span class='cityname'>{ci}</span> · <span class='countryname'>{co}</span></p>
 			</a>
 		{/each}
@@ -229,6 +229,8 @@ function search_trigger(e){
 		font-weight: 400;
 		border: 0;
 		outline: 0;
+		background: transparent;
+		border: none;
 	}
 
 	#search_expanded {

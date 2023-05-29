@@ -3,9 +3,35 @@
   import MeowScore from '$lib/MeowScore.svelte'
   import Footer from '$lib/Footer.svelte'
   import anime from "animejs";
-  import { afterUpdate, onMount } from 'svelte';
+  import { beforeUpdate, afterUpdate, onMount } from 'svelte';
   import { scales } from '$lib/helpers.js';
   import sockets from '$lib/sockets.json';
+  import bmi from '$lib/bmi.json';
+
+  $: new_object = {
+  	'time': '',
+  	'sunrise': '',
+  	'sunset': '',
+  	'day_length': ''
+  }
+
+  // let main_object = {
+  // 	name: '',
+  // 	name_ascii: '',
+  // 	net_speed: [0, ''],
+  // 	net_availability: [0, ''],
+  // 	net_coverage: [0, ''],
+  // 	bike_rating: [0, ''],
+  // 	walk_rating: [0, ''],
+  // 	lgbtq_rating: [0, ''],
+  // 	ttd_names: 
+  // }
+
+  let months_object = {
+  	'january': [],
+  	'february': [],
+
+  }
 
   let overlay_protection = '';
   let disabledScroll = false;
@@ -16,8 +42,47 @@
   let walkRating = 0;
   let walkString = ''
   let lgbtqRating = 0;
-  let lgbtqString = ''
+  let lgbtqString = '';
+  let current_city = '';
+  let bm_index = 0;
+  let currency_converter_link = "";
   // console.log(scales);
+  let main_image = "";
+
+  function time_diff(start, end) {
+    start = start.split(":");
+    end = end.split(":");
+    var startDate = new Date(0, 0, 0, start[0], start[1], 0);
+    var endDate = new Date(0, 0, 0, end[0], end[1], 0);
+    var diff = endDate.getTime() - startDate.getTime();
+    var hours = Math.floor(diff / 1000 / 60 / 60);
+    diff -= hours * 1000 * 60 * 60;
+    var minutes = Math.floor(diff / 1000 / 60);
+
+    // If using time pickers with 24 hours format, add the below line get exact hours
+    if (hours < 0)
+       hours = hours + 24;
+
+    return (hours <= 9 ? "0" : "") + hours + ":" + (minutes <= 9 ? "0" : "") + minutes;
+	}
+
+  async function get_time() {
+	  let response = await fetch("http://api.geonames.org/timezoneJSON?lat=" + data.coor[0] + "&lng=" + data.coor[1] + "&username=levmiseri");
+	  let jsonData = await response.json();
+	  console.log(jsonData);
+	  try {
+	  	new_object['time'] = jsonData.time.split(" ")[1];
+	  	new_object['sunrise'] = jsonData.sunrise.split(" ")[1];
+	  	new_object['sunset'] = jsonData.sunset.split(" ")[1];
+	  	let day_length = time_diff(new_object['sunrise'], new_object['sunset']);
+	  	new_object['day_length'] = day_length.split(":")[0] + 'h ' + day_length.split(":")[1] + 'm';
+	  	new_object['timezone_id'] = jsonData.timezoneId;
+	  } catch(e) {
+	  	console.log(e)
+	  }
+	  console.log(JSON.stringify(new_object));
+	}
+
 
   onMount(() => {
   	console.log('moiduhsfd');
@@ -29,6 +94,8 @@
 			// meowscore = data.d.meowscore;
 			// console.log('meowscore = ' + meowscore);
 		}, false)
+		get_time()
+		currency_converter_link = "https://www.google.com/finance/quote/" + data.c.currency_code + "-USD"
 		//let temp_internet_rating = data.d.net_speed[0] + data.d.net_availability[0]*2 + data.d.net_coverage[0];
 		//console.log('here');
 		//console.log('net = ' + (temp_internet_rating / 4));
@@ -48,7 +115,23 @@
 		else { internetString = scales.internet[4] }
 		console.log(internetRating)
 		console.log(internetString)
+		if (current_city != data.d.name_ascii){
+			current_city = data.d.name_ascii;
+			get_time();
+		}
+		currency_converter_link = "https://www.google.com/finance/quote/" + data.c.currency_code + "-USD";
+		main_image = "background-image: url(https://meowspace.sfo3.cdn.digitaloceanspaces.com/cities/" + data.slug.replace(/\s+/g, '') + "-" + data.coun + ".png), url(/assets/mini/" + data.slug.replace(/\s+/g, '') + "-" + data.coun + "-t.png)";
+		try {
+			bm_index = Math.round(bmi[data.d.country]['dollar'] * 10) / 10;
+		} catch(e) {
+			console.log(e)
+		}
+
+		// get_time()
   });
+
+  beforeUpdate(() => {
+  })
 
   let expanded_id = '';
   let is_expanded = 0;
@@ -286,8 +369,10 @@
   		overlay(is_expanded);
   	} else if (event.detail.text == 'reset'){
   		meow_expanded = 0;
+  		// get_time();
   	}
   }
+
 
 
 </script>
@@ -307,8 +392,8 @@
 </div>
 
 <div id='ilu_and_meow'>
-	<div id='city_ilu_blown' style='background-image: url(/assets/ilu_prague.jpg);'></div>
-	<div id='city_ilu' style='background-image: url(/assets/ilu_prague.jpg);'></div>
+	<div id='city_ilu_blown' style={main_image}></div>
+	<div id='city_ilu' style={main_image}></div>
 	<MeowScore on:message={handleMeow} meow_expanded={meow_expanded} meow_data={data.d.meowscore_object} meowscore={data.d.meowscore}/>
 </div>
 
@@ -318,8 +403,8 @@
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
 				<h4 class='card_headline getout'>Best month</h4>
-				<p class='card_big_text getout' style='color: #228b22;'>{data.d.months['recommended-month'][0]}</p>
-				<p class='card_small_text bottom_aligned getout' style='font-size:16px'>{data.d.months['recommended-month'][1]}</p>
+				<p class='card_big_text getout' style='color: #228b22;'>{(data.d.months['recommended-month'] === undefined) ? '' : data.d.months['recommended-month'][0]}</p>
+				<p class='card_small_text bottom_aligned getout' style='font-size:16px'>{(data.d.months['recommended-month'] === undefined) ? '' : data.d.months['recommended-month'][1]}</p>
 			</div>
 			<div class='card_content_expanded'>
 				<div id='close_ttds' class='close_card getin'><span class='ico_close'></span></div>
@@ -354,7 +439,7 @@
 			<div class='card_content_collapsed'>
 				<span class='ico_emoji card_icon keep'>{scales.economy[data.d.economy.economy - 1][0]}</span>
 				<p class='card_summary_text midish_aligned getout'>{scales.economy[data.d.economy.economy - 1][1]}</p>
-				<p class='card_small_text text_great bottom_aligned getout'>Big mac:</p>
+				<p class='card_small_text text_great bottom_aligned getout'>Bigmac <span class=bigmac_price>${bm_index == 0 ? '?' : bm_index}</span></p>
 			</div>
 			<div class='card_content_expanded'>
 				<span class='ico_emoji card_icon dup'>🤑</span>
@@ -443,9 +528,9 @@
 				<span id='currency_code' class='getout'>{data.c.currency_code}</span>
 			</div>
 			<div class='card_content_expanded'>
-				<p class='currency_conversion card_in getin'><span id='currency_base'>1 {data.c.currency_code}</span> = <br><span id='currency_target'>1.104 USD</span></p>
+				<p class='currency_conversion card_in getin'><span id='currency_base'>1 {data.c.currency_code}</span> = <br><span id='currency_target'>? USD</span></p>
 				<div class='space_s'></div>
-				<a href='#' id='currency_conversion_link' class='external_link card_in getin'>Currency converter</a>
+				<a href={currency_converter_link} id='currency_conversion_link' target="_blank" class='external_link card_in getin'>Currency converter</a>
 				<div class='space_xs'></div>
 			</div>
 		</div>
@@ -454,15 +539,15 @@
 		<div class="card_wrapper">
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
-				<h4 class='card_headline keep'>UTC+1</h4>
-				<p id='current_time' class='card_big_text keep'>22:48</p>
+				<h4 class='card_headline keep'>{new_object['timezone_id']}</h4>
+				<p id='current_time' class='card_big_text keep'>{new_object['time']}</p>
 			</div>
 			<div class='card_content_expanded'>
-				<h4 class='card_headline dup'>UTC+1</h4>
-				<p id='current_time' class='card_big_text dup'>22:48</p>
+				<h4 class='card_headline dup'>{new_object['timezone_id']}</h4>
+				<p id='current_time' class='card_big_text dup'>{new_object['time']}</p>
 				<div class='space_xs'></div>
 				<p class='card_small_col midlight card_in getin'>Sunrise<br>Sunset<br>Day length</p>
-				<p class='card_small_col getin'>05:37 AM<br>08:33 PM<br>15h 35m</p>
+				<p class='card_small_col getin'>{new_object['sunrise']}<br>{new_object['sunset']}<br>{new_object['day_length']}</p>
 			</div>
 		</div>
 	</div>
@@ -633,6 +718,7 @@
 
 <div id='mindful_master_wrap'>
 	<div id='mindful_meowler_wrap'>
+		{#if data.d.mindful_meoweler !== undefined}
 		{#each Object.entries(data.d.mindful_meoweler) as [tipnum, tip], index}
 		{#if (Object.entries(data.d.mindful_meoweler).length == (index + 1))}
 		<div class='meow_tip tip_last'>
@@ -648,6 +734,7 @@
 		</div>
 		{/if}
 		{/each}
+		{/if}
 	</div>
 </div>
 
@@ -662,6 +749,10 @@
 
 
 <style>
+
+	.bigmac_price {
+		float: right;
+	}
 
 	#socket_desc {
 		padding-right: 8px;
@@ -792,6 +883,7 @@
 		margin-left: 16px;
 		margin-top: 10px;
 		color: rgba(0, 0, 0, 0.6);
+		clear: both;
 	}
 
 	.month_wrap {
@@ -829,6 +921,9 @@
 		margin-left: 16px;
 		margin-right: 12px;
 		float: left;
+/*		width: 30px;*/
+    overflow: hidden;
+    white-space: nowrap;
 		line-height: 32px;
 	}
 
@@ -1216,6 +1311,10 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+	}
+
+	#currency_conversion_link {
+		pointer-events: auto;
 	}
 
 	.currency_conversion {
