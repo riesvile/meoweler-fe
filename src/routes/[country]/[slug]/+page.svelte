@@ -49,6 +49,12 @@
   // console.log(scales);
   let main_image = "";
 
+  // $: animate_bg(y)
+
+  function random_int(min, max) { // min and max included 
+	  return Math.floor(Math.random() * (max - min + 1) + min)
+	}
+
   function time_diff(start, end) {
     start = start.split(":");
     end = end.split(":");
@@ -67,10 +73,11 @@
 	}
 
   async function get_time() {
-	  let response = await fetch("http://api.geonames.org/timezoneJSON?lat=" + data.coor[0] + "&lng=" + data.coor[1] + "&username=levmiseri");
+	  let response = await fetch("http://ws.geonames.net/timezoneJSON?lat=" + data.coor[0] + "&lng=" + data.coor[1] + "&username=levmiseri");
 	  let jsonData = await response.json();
-	  console.log(jsonData);
+	  // console.log(jsonData);
 	  try {
+	  	if (jsonData.countryName != data.d.country) return;
 	  	new_object['time'] = jsonData.time.split(" ")[1];
 	  	new_object['sunrise'] = jsonData.sunrise.split(" ")[1];
 	  	new_object['sunset'] = jsonData.sunset.split(" ")[1];
@@ -80,12 +87,12 @@
 	  } catch(e) {
 	  	console.log(e)
 	  }
-	  console.log(JSON.stringify(new_object));
+	  // console.log(JSON.stringify(new_object));
 	}
 
 
   onMount(() => {
-  	console.log('moiduhsfd');
+  	// console.log('moiduhsfd');
   	overlay_protection = document.getElementById('overlay');
   	overlay_protection.addEventListener('click', () => {
 			is_expanded = !is_expanded;
@@ -105,22 +112,25 @@
 
   afterUpdate(() => {
 		let temp_internet_rating = data.d.net_speed[0] + data.d.net_availability[0]*2 + data.d.net_coverage[0];
-		console.log('here');
-		console.log('net = ' + (temp_internet_rating / 4));
+		// console.log('here');
+		// console.log('net = ' + (temp_internet_rating / 4));
 		internetRating = temp_internet_rating / 4;
 		if (internetRating >= 8){ internetString = scales.internet[0] }
 		else if (internetRating >= 7){ internetString = scales.internet[1] }
 		else if (internetRating >= 6){ internetString = scales.internet[2] }
 		else if (internetRating >= 5){ internetString = scales.internet[3] }
 		else { internetString = scales.internet[4] }
-		console.log(internetRating)
-		console.log(internetString)
+		// console.log(internetRating)
+		// console.log(internetString)
 		if (current_city != data.d.name_ascii){
 			current_city = data.d.name_ascii;
 			get_time();
 		}
+
+
+
 		currency_converter_link = "https://www.google.com/finance/quote/" + data.c.currency_code + "-USD";
-		main_image = "background-image: url(https://meowspace.sfo3.cdn.digitaloceanspaces.com/cities/" + data.slug.replace(/\s+/g, '') + "-" + data.coun + ".png), url(/assets/mini/" + data.slug.replace(/\s+/g, '') + "-" + data.coun + "-t.png)";
+		main_image = "background-image: url(https://meoweler.fra1.digitaloceanspaces.com/cities/" + data.slug.replace(/\s+/g, '') + "-" + data.coun + ".png), url(/assets/mini/" + data.slug.replace(/\s+/g, '') + "-" + data.coun + "-t.png)";
 		try {
 			bm_index = Math.round(bmi[data.d.country]['dollar'] * 10) / 10;
 		} catch(e) {
@@ -155,8 +165,11 @@
   	'currency',
   	'time',
   	'bike',
+  	'bike2',
   	'walk',
+  	'walk2',
   	'lgbtq',
+  	'lgbtq2',
   	'ttds',
   	'gems'
   ]
@@ -194,7 +207,7 @@
   }
 
   function overlay(state){
-  	console.log(state);
+  	// console.log(state);
   	
   	if (state) {
   		overlay_protection.style.pointerEvents = 'auto';
@@ -214,7 +227,7 @@
 
   function animate_card_content(keep, getout, getin, state2){
   	let state_val = +state2;
-  	console.log('state = ' + state_val)
+  	// console.log('state = ' + state_val)
   	
 
 	  	anime({
@@ -225,7 +238,7 @@
 	  		easing: 'easeOutQuad'
 	  	})
 
-	  	console.log('newopacity = ' + !state_val)
+	  	// console.log('newopacity = ' + !state_val)
 
 	  	anime({
 	  		targets: getin,
@@ -246,7 +259,7 @@
 
   function toggle_card(element_id){
   	if (element_id == 'meow'){
-  		console.log('meoww');
+  		// console.log('meoww');
   		meow_expanded = !meow_expanded;
   		overlay(is_expanded);
   		return;
@@ -260,9 +273,9 @@
   	let anim_keep = wrap_el.getElementsByClassName('keep');
   	let anim_getout = wrap_el.getElementsByClassName('getout');
   	let anim_getin = wrap_el.getElementsByClassName('getin');
-  	console.log('offsets:');
-  	console.log(offsets);
-  	console.log(bcr_expanded)
+  	// console.log('offsets:');
+  	// console.log(offsets);
+  	// console.log(bcr_expanded)
   	// console.log(bcr_main);
 
 
@@ -327,6 +340,7 @@
 			  expanded_el.style.height = 'auto';
 			  expanded_el.style.paddingBottom = '16px';
 			  if (element_id == 'bike' || element_id == 'walk' || element_id == 'lgbtq') expanded_el.style.height = '80px';
+			  if (element_id == 'bike2' || element_id == 'walk2' || element_id == 'lgbtq2') expanded_el.style.height = '62px';
 			}
 	  	})
 
@@ -343,16 +357,16 @@
   }
 
   function click_t(e){
-  	console.log('triggered');
-  	console.log(e.target.id)
+  	// console.log('triggered');
+  	// console.log(e.target.id)
   	let el_id = e.target.id;
   	if (card_ids.includes(el_id)){
-  		console.log('293409238759082374029837429347092847290384');
+  		// console.log('293409238759082374029837429347092847290384');
   		expanded_id = el_id;
   		is_expanded = !is_expanded;
   		toggle_card(el_id);
   	} else {
-  		console.log('nopenopenopenope');
+  		// console.log('nopenopenopenope');
   		if (el_id == 'close_ttds' || el_id == 'close_gems'){
   			is_expanded = !is_expanded;
   			toggle_card(expanded_id);
@@ -363,7 +377,7 @@
 
   function handleMeow(event){
   	if (event.detail.text == 'overlay'){
-  		console.log('happened');
+  		// console.log('happened');
   		is_expanded = !is_expanded;
   		expanded_id = 'meow';
   		overlay(is_expanded);
@@ -378,13 +392,15 @@
 </script>
 
 
-<svelte:window bind:innerWidth={screenWidth} bind:innerHeight={screenHeight}/>
+<svelte:window bind:innerWidth={screenWidth} bind:innerHeight={screenHeight} />
 
 <main class:scroll-lock={disabledScroll}>
 
 	<!-- <h1>{JSON.stringify(data.coun)}</h1> -->
 
 <div id='overlay'></div>
+
+<div id='wrapall'>
 
 <div class='text_intro'>
 	<a href='#' class='country'>{data.d.country}</a> 
@@ -409,8 +425,12 @@
 			<div class='card_content_expanded'>
 				<div id='close_ttds' class='close_card getin'><span class='ico_close'></span></div>
 				<!-- <h4 class='card_headline dup'>When to visit</h4> -->
+
+				<div class='part1'>
+
 				{#each Object.entries(data.d.months) as [month, value], index}
 				{#if !month.toLowerCase().startsWith('r')}
+				{#if index <= 5}
 
 				<div class='list_row row_month getin'>
 					{#if value[2] === undefined}
@@ -425,10 +445,45 @@
 				</div>
 
 				{/if}
+				{/if}
 				{/each}
 
-				<div class="space_xl"></div>
-				<div class="space_xl"></div>
+				</div>
+
+
+
+				<div class='part2'>
+
+				{#each Object.entries(data.d.months) as [month, value], index}
+				{#if !month.toLowerCase().startsWith('r')}
+				{#if index > 5}
+
+				<div class='list_row row_month getin'>
+					{#if value[2] === undefined}
+						<span class='list_emoji_big'>M</span>
+					{:else}
+						<span class='list_emoji_big'>{value[2]}</span>
+					{/if}
+					<div class='month_wrap'>
+						<h5 class="list_head_exp">{month}</h5>
+						<p id='ttd1' class='list_para getin'>{value[0]}</p>
+					</div>
+				</div>
+
+				{/if}
+				{/if}
+				{/each}
+
+				</div>
+
+
+
+
+
+
+
+				<div class="space_xl hide_desktop"></div>
+				<div class="space_xl hide_desktop"></div>
 			</div>
 		</div>
 	</div>
@@ -600,7 +655,7 @@
 
 	<h3 class='content_headline'>Things to do</h3>
 
-	<div id='ttds' class='card c_1_list' on:click={(event) => click_t(event)}>
+	<div id='ttds' class='card c_1_list noshadow' on:click={(event) => click_t(event)}>
 		<div class="card_wrapper card_border bg_carded">
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
@@ -649,13 +704,13 @@
 					<p id='ttd5' class='list_para getin'>{data.d.ttd_descriptions[4]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.ttd_names[4] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
-				<div class="space_xl"></div>
+				<div class="space_xl hide_desktop"></div>
 				<div class="space_l"></div>
 			</div>
 		</div>
 	</div>
 
-	<div id='gems' class='card c_1_list' on:click={(event) => click_t(event)}>
+	<div id='gems' class='card c_1_list noshadow' on:click={(event) => click_t(event)}>
 		<div class="card_wrapper card_border bg_carded">
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
@@ -704,10 +759,50 @@
 					<p id='ttd5' class='list_para getin'>{data.d.gems_descriptions[4	]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.gems_names[4] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
-				<div class="space_xl"></div>
+				<div class="space_xl hide_desktop"></div>
 				<div class="space_l"></div>
 			</div>
 		</div>
+	</div>
+
+	<div id='wrap2'>
+
+	<div id='bike2' class='card c_triplet noshadow' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper bg_{others_card_string(data.d.bike_rating[0])}">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='inner_head text_centered text_{others_card_string(data.d.bike_rating[0])} getout'>{scales.biking[others_scale(data.d.bike_rating[0])]}</h4>
+			</div>
+			<div class='card_content_expanded'>
+				<p class='card_large_text text_centered text_{others_card_string(data.d.bike_rating[0])} getin'>{data.d.bike_rating[1]}</p>
+			</div>
+		</div>
+	</div>
+
+	<div id='walk2' class='card c_triplet noshadow' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper bg_{others_card_string(data.d.walk_rating[0])}">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='inner_head text_centered text_{others_card_string(data.d.walk_rating[0])} getout'>{scales.walking[others_scale(data.d.walk_rating[0])]}</h4>
+			</div>
+			<div class='card_content_expanded'>
+				<p class='card_large_text text_centered text_{others_card_string(data.d.walk_rating[0])} getin'>{data.d.walk_rating[1]}</p>
+			</div>
+		</div>
+	</div>
+
+	<div id='lgbtq2' class='card c_triplet noshadow c_last' on:click={(event) => click_t(event)}>
+		<div class="card_wrapper bg_{others_card_string(data.d.lgbtq_rating[0])}">
+			<div class='card_background'></div>
+			<div class='card_content_collapsed'>
+				<h4 class='inner_head text_centered text_{others_card_string(data.d.lgbtq_rating[0])} getout'>{scales.lgbtq[others_scale(data.d.lgbtq_rating[0])]}</h4>
+			</div>
+			<div class='card_content_expanded'>
+				<p class='card_large_text text_centered text_{others_card_string(data.d.lgbtq_rating[0])} getin'>{data.d.lgbtq_rating[1]}</p>
+			</div>
+		</div>
+	</div>
+
 	</div>
 
 	<h3 class='content_headline'>Mindful meowler tips</h3>
@@ -722,13 +817,13 @@
 		{#each Object.entries(data.d.mindful_meoweler) as [tipnum, tip], index}
 		{#if (Object.entries(data.d.mindful_meoweler).length == (index + 1))}
 		<div class='meow_tip tip_last'>
-			<div class='meow_tip_img'></div>
+			<div class='meow_tip_img' style='background-image: url(/assets/mindful/r{random_int(1, 13)}.png)'></div>
 			<h4 class='meow_tip_head'>{tip[0]}</h4>
 			<p class='meow_desc'>{tip[1]}</p>
 		</div>
 		{:else}
 		<div class='meow_tip'>
-			<div class='meow_tip_img'></div>
+			<div class='meow_tip_img' style='background-image: url(/assets/mindful/r{random_int(1, 13)}.png)'></div>
 			<h4 class='meow_tip_head'>{tip[0]}</h4>
 			<p class='meow_desc'>{tip[1]}</p>
 		</div>
@@ -745,13 +840,19 @@
 
 </div>
 
+</div>
+
 </main>
 
 
 <style>
 
+	.meow_tip_img {
+		background-size: cover;
+	}
+
 	.bigmac_price {
-		float: right;
+/*		float: right;*/
 	}
 
 	#socket_desc {
@@ -969,6 +1070,7 @@
 		margin-bottom: 20px;
 		margin-left: 4px;
 		margin-top: 40px;
+		clear: both;
 	}
 
 	#rest_content {
@@ -1247,6 +1349,18 @@
 		border-radius: 20px;
 		margin-bottom: 16px;
 		position: relative;
+		cursor: pointer;
+		box-sizing: border-box;
+	}
+
+	.card.noshadow:hover .card_wrapper {
+		border: 1px solid rgba(0, 0, 0, 0.28);
+	}
+
+	.card:hover {
+/*		background-color: #f5f5f5;*/
+/*		transform: scale(1.01);*/
+			box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.16);
 	}
 
 	.card_in {
@@ -1404,5 +1518,245 @@
 		z-index: -1;
 	}
 
+	#bike2, #walk2, #lgbtq2 {
+		display: none;
+	}
+
+
+	@media (min-width: 800px) {
+		#wrapall {
+/*			position: relative;*/
+			overflow: hidden;
+			width: 100%;
+			padding-left: 5%;
+			padding-right: 5%;
+			-webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+			background: linear-gradient(0deg, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+		}
+
+		#ilu_and_meow {
+			width: calc(100vw - 5vw);
+/*			background-color: #092;*/
+		}
+
+		#tagline {
+			width: 75%;
+		}
+
+		.close_card {
+			display: none;
+		}
+
+		.c_1_list .card_content_expanded {
+			width: 120%;
+			height: auto;
+			max-height: 94vh;
+		}
+
+		.c_1 .card_content_expanded {
+			width: 200%;
+			height: auto;
+			max-height: 90vh;
+		}
+
+		.part1 {
+			width: 48%;
+			float: left;
+		}
+
+		.part2 {
+			width: 48%;
+			float: left;
+		}
+
+		.hide_desktop {
+			display: none;
+		}
+
+		h5.list_head_exp {
+			width: calc(100% - 100px);
+		}
+
+
+	}
+
+	@media (min-width: 1056px) {
+
+
+		.text_intro {
+			margin-left: 0;
+		}
+
+		#ilu_and_meow {
+			height: 60vh;
+			margin-left: 0;
+		}
+
+
+
+		#snippet_cards {
+			margin-left: 0;
+		}
+
+		.card {
+			height: 168px;
+			margin-right: 12px;
+			box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.1);
+		}
+
+		.noshadow {
+			box-shadow: none !important;
+		}
+
+		.c_1 {
+			width: calc(28% - 28px);
+			float: left;
+		}
+
+		.c_13 {
+			width: calc(14%  - 28px);
+		}
+
+		.c_23 {
+			width: calc(22% - 28px);
+		}
+
+		.c_square {
+			float: left;
+			width: 78px;
+			height: 78px;
+			margin-right: 0;
+			margin-bottom: 12px;
+		}
+
+		.c_2square_rest {
+			display: none;
+		}
+
+		.align_r {
+			float: left;
+		}
+
+		#bike, #walk, #lgbtq {
+			display: none;
+		}
+
+		.c_1_list {
+			width: 36%;
+			height: 300px;
+			float: left;
+			margin-right: 20px;
+			margin-bottom: 48px;
+		}
+
+		#wrap2 {
+			width: 22%;
+			float: left;
+		}
+
+		#bike2, #walk2, #lgbtq2 {
+/*			width: 22%;*/
+			width: 50%;
+			height: 62px;
+			display: block;
+		}
+
+
+
+
+		#rest_content {
+			padding: 0;
+		}
+
+		.about_text {
+			font-size: 26px;
+			font-weight: 400;
+			line-height: 34px;
+			width: 800px;
+		}
+
+
+		#mindful_master_wrap {
+			display: block;
+		}
+
+		#mindful_meowler_wrap {
+			display: block;
+		}
+
+
+		.meow_tip {
+			width: 30%;
+			padding-left: 0;
+			margin-right: 3%;
+			margin-bottom: 32px;
+			float: left;
+		}
+
+		.tip_last {
+			padding-right: 0;
+		}
+
+	}
+
+	@media (min-width: 1520px) {
+
+		.text_intro {
+			margin-top: 50px;
+		}
+
+		#tagline {
+			font-size: 44px;
+			line-height: 50px;
+			width: 760px;
+		}
+
+		#ilu_and_meow {
+			margin-top: 48px;
+			width: 100%;
+		}
+
+		#city_ilu {
+			border-radius: 40px 40px 40px 40px;
+		}
+
+		#wrapall {
+			width: 100%;
+			padding-left: 10%;
+			padding-right: 10%;
+		}
+
+
+	}
+
 
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

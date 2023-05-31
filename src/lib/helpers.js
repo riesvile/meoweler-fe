@@ -47,6 +47,24 @@ const leaderboard = [
 	},
 ]
 
+const popular = [
+	['Paris', 'France'],
+	['Rome', 'Italy'],
+	['Barcelona', 'Spain'],
+	['New York', 'United States'],
+	['London', 'United Kingdom'],
+	['Dubai', 'United Arab Emirates'],
+	['Kyoto', 'Japan'],
+	['Istanbul', 'Turkey'],
+	['Bangkok', 'Thailand'],
+	['Sydney', 'Australia'],
+	['Amsterdam', 'Netherlands'],
+	['Prague', 'Czechia'],
+	['Cancun', 'Mexico'],
+	['Cape Town', 'South Africa'],
+	['Marrakech', 'Morocco']
+]
+
 
 export const scales = {
 	'economy': economy,
@@ -55,5 +73,14 @@ export const scales = {
 	'lgbtq': lgbtq,
 	'internet': internet,
 	'meow': meow,
-	'leaderboard': leaderboard
+	'leaderboard': leaderboard,
+	'popular': popular
 }
+
+
+
+
+
+
+
+

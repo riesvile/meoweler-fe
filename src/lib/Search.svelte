@@ -4,6 +4,11 @@
 let search_active = false;
 import anime from "animejs";
 import cities from '$lib/cunts.json';
+import { page } from '$app/stores';
+// import { onMount } from 'svelte';
+
+// console.log('testload');
+// console.log($page.url.pathname); 
 
 let searchTerm = "";
 let search_results = [];
@@ -11,13 +16,19 @@ $: render_results = search_results;
 
 // const cities = require('/data/cunts.json');
 
-$: if (searchTerm.length != 0){
+// $: if (searchTerm.length != 0){
+// 	search_results = get_results(searchTerm.toLowerCase());
+// 	console.log(search_results);
+// } 
+
+$: {
 	search_results = get_results(searchTerm.toLowerCase());
-	console.log(search_results);
-}
+	// console.log(search_results);
+} 
+
 
 function redirect_to(cityname){
-	console.log(cityname);
+	// console.log(cityname);
 	search_trigger();
 }
 
@@ -29,10 +40,11 @@ function update_results(ar){
 
 
 function get_results(q, howmany=7){
+	if (q == '') console.log();
 	let temp_results = [];
 	let co_results = [];
-	console.log('triggered searchc');
-	console.log(q);
+	// console.log('triggered searchc');
+	// console.log(q);
 
 	temp_results = cities.filter(function(city){
 		let check = (city.ci).toLowerCase();
@@ -65,17 +77,35 @@ function search_trigger(e){
 
 	if (search_active){
 		document.querySelector('#search_expanded').style.display = 'block';
+		document.querySelector('#search_overlay').style.pointerEvents = 'auto';
 		anime({
 	  		targets: "#search_expanded",
 	  		opacity: 1,
 	  		duration: 150,
 	  		easing: 'easeOutQuad'
 	  	})
+	  	anime({
+	  		targets: "#search_overlay",
+	  		opacity: 1,
+	  		backdropFilter: 'blur(4px)',
+  			'-webkit-backdrop-filter': 'blur(4px)',
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
 	  	document.getElementById('query').focus();
 	} else {
+		document.querySelector('#search_overlay').style.pointerEvents = 'none';
 		anime({
 	  		targets: "#search_expanded",
 	  		opacity: 0,
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
+	  	anime({
+	  		targets: "#search_overlay",
+	  		opacity: 0,
+	  		backdropFilter: 'blur(0px)',
+  			'-webkit-backdrop-filter': 'blur(0px)',
 	  		duration: 150,
 	  		easing: 'easeOutQuad'
 	  	})
@@ -95,10 +125,17 @@ function search_trigger(e){
 
 
 
+{#if $page.url.pathname != '/'}
+
+<div id='search_overlay' on:click={(event) => search_trigger(event)}></div>
 
 <div id='search_wrap'>
 
-<div id='search' on:click={(event) => search_trigger(event)}><span class='ico_search icon_mmm'></span></div>
+
+<div id='search' on:click={(event) => search_trigger(event)}><span class='ico_search icon_mmm'></span><span class='placehold'>Search...</span></div>
+
+
+<!-- <div id='search_on_home' on:click={(event) => search_trigger(event)}><span class='ico_search icon_mmm'></span></div> -->
 
 <div id='search_expanded' style=''>
 
@@ -152,13 +189,31 @@ function search_trigger(e){
 
 </div>
 
-
+{/if}
 <style>
 
-	/*:global(.fixit_search) {
-		position: fixed !important;
+
+	#search_overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 2;
+		opacity: 0;
+		display: none;
+		pointer-events: none;
 	}
-*/
+
+	.placehold {
+		display: none;
+	}
+
+	
+	#search_on_home {
+
+	}
 
 
 	.test_img {
@@ -193,6 +248,7 @@ function search_trigger(e){
 		float: left;
 		border-radius: 40px;
 		background-size: cover;
+		transition: 0.1s all;
 	}
 
 	.search_result {
@@ -202,6 +258,17 @@ function search_trigger(e){
 		display: block;
 		padding: 6px 0px;
 /*		background-color: #978;*/
+		transition: 0.1s all;
+	}
+
+	.search_result:hover .result_text {
+		transform: translateX(2px);
+		transition: 0.1s all;
+	}
+
+	.search_result:hover .result_img {
+/*		transform: scale(1.05);*/
+		transition: 0.1s all;
 	}
 
 	#results {
@@ -297,6 +364,78 @@ function search_trigger(e){
 		background-color: rgba(215, 200, 199, 0.4);
 		border-radius: 48px;
 		z-index: 5;
+	}
+
+	div#search_wrap:hover {
+		background-color: rgba(215, 200, 199, 0.6);
+		cursor: text;
+	}
+
+	@media (min-width: 800px) {
+
+		#search_overlay {
+			display: block;
+		}
+
+		div#search_wrap {
+			position: absolute;
+			left: auto;
+			top: 22px;
+			right: 5%;
+			height: 40px;
+			width: 212px;
+		}
+
+		.icon_mmm {
+			width: 40px;
+			height: 40px;
+			top: -4px;
+/*			left: -4px;*/
+			opacity: 0.72;
+		}
+
+		.placehold {
+			display: block;
+			line-height: 40px;
+			margin-left: 42px;
+			font-size: 15px;
+			color: rgba(0, 0, 0, 0.72);
+		}
+
+		#search_expanded {
+			position: absolute;
+			z-index:2;
+			left: auto;
+			right: 0;
+			width: 420px;
+			height: 60px;
+			border-radius: 16px;
+			overflow: visible;
+		}
+
+		#query {
+			position: absolute;
+			top: 16px;
+			left: 20px;
+		}
+
+		#results {
+			position: absolute;
+			top: 64px;
+			left: 0;
+			background-color: #fff;
+			width: 420px;
+			box-sizing: border-box;
+			padding: 12px 16px;
+			border-radius: 16px;
+		}
+
+	}
+
+	@media (min-width: 1520px) {
+		div#search_wrap {
+			right: 10%;
+		}
 	}
 
 

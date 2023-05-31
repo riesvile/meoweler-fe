@@ -135,4 +135,48 @@
 		margin-top: 22px;
 	}
 
+	@media (min-width: 800px) {
+		
+
+		.rank_row, .meowilu, h2, p, h3 {
+			width: 600px;
+			margin-left: 5%;
+		}
+
+		.meowilu {
+			height: 300px;
+		}
+
+		main {
+			background-color: #f5f5f5;
+		}
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

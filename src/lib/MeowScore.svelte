@@ -39,11 +39,12 @@
 
 	function score_details(state = 1){
 		// console.log(e.target.id)
-		console.log('tetet');
+		// console.log('tetet');
 
 		if (state){
 			document.getElementById('meow_score_expanded').style.opacity = 1;
 			document.getElementById('meow_score').style.zIndex = 5;
+			document.getElementById('meow_what').style.pointerEvents = 'auto';
 
 			anime({
 		  		targets: '#meow_score',
@@ -80,7 +81,7 @@
 
 		} else {
 			// document.getElementById('meow_score_expanded').style.opacity = 0;
-			
+			document.getElementById('meow_what').style.pointerEvents = 'none';
 
 			anime({
 		  		targets: '#meow_score',
@@ -146,9 +147,10 @@
 
 <div id='meow_score'>
 	<div id='meow_score_summary' on:click={(event) => score_details()}>
+		<span id='meow_label'>MeowScore</span>
 		<span id='meow_summary_emoji'>{meowscore_emoji(meowscore)}</span>{meowscore}<span class='dimmed'>/100</span>
 	</div>
-	<div id='meow_what'>What is MeowScore?</div>
+	<a href='/meowscore' id='meow_what'>What is MeowScore?</a>
 	<div id='meow_score_expanded'>
 		<div class='meow_score_item'>
 			<span class='score_item_text'>🐈 Cats in the city</span>
@@ -206,6 +208,11 @@
 		padding-left: 20px;
 		pointer-events: none;
 		z-index: 1;
+		cursor: pointer;
+	}
+
+	#meow_score:hover #meow_score_summary {
+/*		font-weight: 500;*/
 	}
 
 	#meow_what {
@@ -215,6 +222,8 @@
 		font-size: 16px;
 		color: #7B55A2;
 		opacity: 0;
+		pointer-events: none;
+		text-decoration: none;
 	}
 
 	#meow_summary_emoji {
@@ -267,6 +276,61 @@
 		transform-origin: top left;
 		transform: scale(0.8);
 /*		background-color: #fff;*/
+	}
+
+	@media (min-width: 800px) {
+		#meow_score {
+			width: 360px;
+		}
+	}
+
+
+	@media (min-width: 1520px) {
+		#meow_score {
+			left: auto;
+			top: -120px;
+			right: 0px;
+			padding-top: 92px;
+		}
+
+		#meow_score_summary {
+			left: auto;
+			right: 8px;
+			height: 80px;
+/*			width: 240px;*/
+			font-size: 38px;
+			font-weight: 300;
+			line-height: 100px;
+			padding: 0;
+			padding-right: 12px;
+			padding-left: 70px;
+    		text-align: left;
+		}
+
+		#meow_label {
+			position: absolute;
+    		top: 10px;
+    		left: 70px;
+    		font-size: 15px;
+    		line-height: 20px;
+		}
+
+		#meow_summary_emoji {
+			font-size: 52px;
+			line-height: 80px;
+		}
+
+		#meow_score_expanded {
+/*			transform-origin: top right;*/
+		}
+
+		#meow_what {
+			right: auto;
+			top: 20px;
+		    width: 100px;
+		    line-height: 20px;
+		}
+
 	}
 
 

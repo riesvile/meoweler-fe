@@ -10,6 +10,16 @@ import top8 from '$lib/top8.json';
 import top9 from '$lib/top9.json';
 import top10 from '$lib/top10.json';
 import top11 from '$lib/top11.json';
+import top12 from '$lib/top12.json';
+import top13 from '$lib/top13.json';
+import top14 from '$lib/top14.json';
+import top15 from '$lib/top15.json';
+import top16 from '$lib/top16.json';
+import top17 from '$lib/top17.json';
+import top18 from '$lib/top18.json';
+import top19 from '$lib/top19.json';
+import top20 from '$lib/top20.json';
+import top21 from '$lib/top21.json';
 import cities from '$lib/cunts.json';
 import countries from '$lib/countries.json';
 import ll from '$lib/latlng.json';
@@ -40,7 +50,17 @@ let file_map = {
 	p500000: top8,
 	p450000: top9,
 	p400000: top10,
-	p350000: top11
+	p350000: top11,
+	p300000: top12,
+	p250000: top13,
+	p220000: top14,
+	p200000: top15,
+	p180000: top16,
+	p160000: top17,
+	p150000: top18,
+	p140000: top19,
+	p130000: top20,
+	p120000: top21,
 
 }
 
@@ -93,6 +113,16 @@ function which_file(population){
 	if (population > 450000) return 'p450000';
 	if (population > 400000) return 'p400000';
 	if (population > 350000) return 'p350000';
+	if (population > 300000) return 'p300000';
+	if (population > 250000) return 'p250000';
+	if (population > 220000) return 'p220000';
+	if (population > 200000) return 'p200000';
+	if (population > 180000) return 'p180000';
+	if (population > 160000) return 'p160000';
+	if (population > 150000) return 'p150000';
+	if (population > 140000) return 'p140000';
+	if (population > 130000) return 'p130000';
+	if (population > 120000) return 'p120000';
 
 }
 
