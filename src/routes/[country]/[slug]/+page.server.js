@@ -67,7 +67,7 @@ let file_map = {
 
 function get_city_content(country_short, slug, f){
 
-	console.log(f)
+	// console.log(f)
 	let result = file_map[f].filter(function(city){
 		let check = (city.name_ascii).toLowerCase();
 		let check2 = (city.country).toLowerCase().substring(0,3) + city.country.slice(-1);
@@ -92,8 +92,8 @@ function get_country_content(country_name){
 		let check = (country.name).toLowerCase();
 		return (check == country_name.toLowerCase());
 	});
-	console.log(country_name);
-	console.log(result);
+	// console.log(country_name);
+	// console.log(result);
 	return result
 }
 
@@ -133,14 +133,14 @@ function check_population(slug, threshold = 1000000){
 		let check = (city.ci).toLowerCase();
 		return check == slug;
 	});
-	console.log('temp');
-	console.log(temp_result[0].p)
+	// console.log('temp');
+	// console.log(temp_result[0].p)
 	return (which_file(temp_result[0].p));
 }
 
 
 export const load = ({ params }) => {
-	console.log('ttest');
+	// console.log('ttest');
 	// console.log(top);
 	// if (cities.c)
 
@@ -150,8 +150,8 @@ export const load = ({ params }) => {
 	let retreive2 = get_country_content(retreive[0].country);
 	// console.log('huhuh');
 	let coor = get_latlng(params.country, params.slug);
-	console.log('coor = ' + coor[0].lat);
-	console.log(retreive);
+	// console.log('coor = ' + coor[0].lat);
+	// console.log(retreive);
     return {
     	coun: params.country,
         slug: params.slug,
