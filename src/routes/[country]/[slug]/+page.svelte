@@ -417,8 +417,10 @@
 	<div id='month_visit' class='card c_1' on:click={(event) => click_t(event)}>
 		<div class="card_wrapper">
 			<div class='card_background'></div>
+			{#if data.d['months'] != undefined}
 			<div class='card_content_collapsed'>
 				<h4 class='card_headline getout'>Best month</h4>
+				
 				<p class='card_big_text getout' style='color: #228b22;'>{(data.d.months['recommended-month'] === undefined) ? '' : data.d.months['recommended-month'][0]}</p>
 				<p class='card_small_text bottom_aligned getout' style='font-size:16px'>{(data.d.months['recommended-month'] === undefined) ? '' : data.d.months['recommended-month'][1]}</p>
 			</div>
@@ -427,6 +429,7 @@
 				<!-- <h4 class='card_headline dup'>When to visit</h4> -->
 
 				<div class='part1'>
+
 
 				{#each Object.entries(data.d.months) as [month, value], index}
 				{#if !month.toLowerCase().startsWith('r')}
@@ -485,9 +488,11 @@
 				<div class="space_xl hide_desktop"></div>
 				<div class="space_xl hide_desktop"></div>
 			</div>
+			{/if}
 		</div>
 	</div>
 
+	{#if data.d['economy'] != undefined}
 	<div id='economy' class='card c_13 align_l' on:click={(event) => click_t(event)}>
 		<div class="card_wrapper bg_great">
 			<div class='card_background'></div>
@@ -504,6 +509,8 @@
 			</div>
 		</div>
 	</div>
+	{/if}
+
 	<div id='duration' class='card c_23 align_r' on:click={(event) => click_t(event)}>
 		<div class="card_wrapper">
 			<div class='card_background'></div>

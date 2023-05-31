@@ -29,6 +29,11 @@
 		// once the DOM is updated...
   });
 
+  function redirect_to(cityname){
+	// console.log(cityname);
+	// search_trigger();
+}
+
   function animate_cat(val){
   	// console.log(val)
   	if (kitty == '') return;
