@@ -72,6 +72,10 @@
 </script>
 
 
+<svelte:head>
+    <title>Meoweler.com</title> 
+</svelte:head>
+
 <svelte:window bind:innerWidth={screenWidth} bind:innerHeight={screenHeight} bind:scrollY={y}/>
 
 <!-- <h1>{y}</h1> -->

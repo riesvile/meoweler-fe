@@ -10,6 +10,9 @@
 
 </script>
 
+<svelte:head>
+    <title>MeowScore</title> 
+</svelte:head>
 
 <svelte:window bind:innerWidth={screenWidth} bind:innerHeight={screenHeight}/>
 

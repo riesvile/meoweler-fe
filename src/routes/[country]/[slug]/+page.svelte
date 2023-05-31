@@ -73,7 +73,7 @@
 	}
 
   async function get_time() {
-	  let response = await fetch("http://ws.geonames.net/timezoneJSON?lat=" + data.coor[0] + "&lng=" + data.coor[1] + "&username=levmiseri");
+	  let response = await fetch("https://secure.geonames.net/timezoneJSON?lat=" + data.coor[0] + "&lng=" + data.coor[1] + "&username=levmiseri");
 	  let jsonData = await response.json();
 	  // console.log(jsonData);
 	  try {
@@ -391,6 +391,9 @@
 
 </script>
 
+<svelte:head>
+    <title>Meoweler · {data.d.name}</title> 
+</svelte:head>
 
 <svelte:window bind:innerWidth={screenWidth} bind:innerHeight={screenHeight} />
 
