@@ -671,46 +671,86 @@
 			<div class='card_content_collapsed'>
 				<h4 class='card_headline keep'>The mainstream</h4>
 				<div class='list_row getout'>
+					{#if data.d.ttd_emojis[0] == null}
+					<span class='list_emoji'>1</span><h5 class='list_head'>{data.d.ttd_names[0]}</h5>
+					{:else}
 					<span class='list_emoji'>{data.d.ttd_emojis[0]}</span><h5 class='list_head'>{data.d.ttd_names[0]}</h5>
+					{/if}
 				</div>
 				<div class='list_row getout'>
+					{#if data.d.ttd_emojis[1] == null}
+					<span class='list_emoji'>2</span><h5 class='list_head'>{data.d.ttd_names[1]}</h5>
+					{:else}
 					<span class='list_emoji'>{data.d.ttd_emojis[1]}</span><h5 class='list_head'>{data.d.ttd_names[1]}</h5>
+					{/if}
 				</div>
 				<div class='list_row getout'>
+					{#if data.d.ttd_emojis[2] == null}
+					<span class='list_emoji'>3</span><h5 class='list_head'>{data.d.ttd_names[2]}</h5>
+					{:else}
 					<span class='list_emoji'>{data.d.ttd_emojis[2]}</span><h5 class='list_head'>{data.d.ttd_names[2]}</h5>
+					{/if}
 				</div>
 				<div class='list_row getout'>
+					{#if data.d.ttd_emojis[3] == null}
+					<span class='list_emoji'>4</span><h5 class='list_head'>{data.d.ttd_names[3]}</h5>
+					{:else}
 					<span class='list_emoji'>{data.d.ttd_emojis[3]}</span><h5 class='list_head'>{data.d.ttd_names[3]}</h5>
+					{/if}
 				</div>
 				<div class='list_row getout'>
+					{#if data.d.ttd_emojis[4] == null}
+					<span class='list_emoji'>5</span><h5 class='list_head'>{data.d.ttd_names[4]}</h5>
+					{:else}
 					<span class='list_emoji'>{data.d.ttd_emojis[4]}</span><h5 class='list_head'>{data.d.ttd_names[4]}</h5>
+					{/if}
 				</div>
 			</div>
 			<div class='card_content_expanded'>
 				<div id='close_ttds' class='close_card getin'><span class='ico_close'></span></div>
 				<h4 class='card_headline dup'>The mainstream</h4>
 				<div class='list_row getin'>
-					<span class='list_emoji'>{data.d.ttd_emojis[0]}</span><h5 class='list_head_exp'>{data.d.ttd_names[0]}</h5>
+					{#if data.d.ttd_emojis[0] == null}
+					<span class='list_emoji'>1</span><h5 class='list_head'>{data.d.ttd_names[0]}</h5>
+					{:else}
+					<span class='list_emoji'>{data.d.ttd_emojis[0]}</span><h5 class='list_head'>{data.d.ttd_names[0]}</h5>
+					{/if}
 					<p id='ttd1' class='list_para getin'>{data.d.ttd_descriptions[0]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.ttd_names[0] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>{data.d.ttd_emojis[1]}</span><h5 class='list_head_exp'>{data.d.ttd_names[1]}</h5>
+					{#if data.d.ttd_emojis[1] == null}
+					<span class='list_emoji'>2</span><h5 class='list_head'>{data.d.ttd_names[1]}</h5>
+					{:else}
+					<span class='list_emoji'>{data.d.ttd_emojis[1]}</span><h5 class='list_head'>{data.d.ttd_names[1]}</h5>
+					{/if}
 					<p id='ttd2' class='list_para getin'>{data.d.ttd_descriptions[1]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.ttd_names[1] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>{data.d.ttd_emojis[2]}</span><h5 class='list_head_exp'>{data.d.ttd_names[2]}</h5>
+					{#if data.d.ttd_emojis[2] == null}
+					<span class='list_emoji'>3</span><h5 class='list_head'>{data.d.ttd_names[2]}</h5>
+					{:else}
+					<span class='list_emoji'>{data.d.ttd_emojis[2]}</span><h5 class='list_head'>{data.d.ttd_names[2]}</h5>
+					{/if}
 					<p id='ttd3' class='list_para getin'>{data.d.ttd_descriptions[2]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.ttd_names[2] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>{data.d.ttd_emojis[3]}</span><h5 class='list_head_exp'>{data.d.ttd_names[3]}</h5>
+					{#if data.d.ttd_emojis[3] == null}
+					<span class='list_emoji'>4</span><h5 class='list_head'>{data.d.ttd_names[3]}</h5>
+					{:else}
+					<span class='list_emoji'>{data.d.ttd_emojis[3]}</span><h5 class='list_head'>{data.d.ttd_names[3]}</h5>
+					{/if}
 					<p id='ttd4' class='list_para getin'>{data.d.ttd_descriptions[3]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.ttd_names[3] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>{data.d.ttd_emojis[4]}</span><h5 class='list_head_exp'>{data.d.ttd_names[4]}</h5>
+					{#if data.d.ttd_emojis[4] == null}
+					<span class='list_emoji'>5</span><h5 class='list_head'>{data.d.ttd_names[4]}</h5>
+					{:else}
+					<span class='list_emoji'>{data.d.ttd_emojis[4]}</span><h5 class='list_head'>{data.d.ttd_names[4]}</h5>
+					{/if}
 					<p id='ttd5' class='list_para getin'>{data.d.ttd_descriptions[4]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.ttd_names[4] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
@@ -726,46 +766,86 @@
 			<div class='card_content_collapsed'>
 				<h4 class='card_headline keep'>Off the beaten path</h4>
 				<div class='list_row getout'>
+					{#if data.d.gems_emojis[0] == null}
+					<span class='list_emoji'>1</span><h5 class='list_head'>{data.d.ttd_names[0]}</h5>
+					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[0]}</span><h5 class='list_head'>{data.d.gems_names[0]}</h5>
+					{/if}
 				</div>
 				<div class='list_row getout'>
+					{#if data.d.gems_emojis[1] == null}
+					<span class='list_emoji'>2</span><h5 class='list_head'>{data.d.ttd_names[1]}</h5>
+					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[1]}</span><h5 class='list_head'>{data.d.gems_names[1]}</h5>
+					{/if}
 				</div>
 				<div class='list_row getout'>
+					{#if data.d.gems_emojis[2] == null}
+					<span class='list_emoji'>3</span><h5 class='list_head'>{data.d.ttd_names[2]}</h5>
+					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[2]}</span><h5 class='list_head'>{data.d.gems_names[2]}</h5>
+					{/if}
 				</div>
 				<div class='list_row getout'>
+					{#if data.d.gems_emojis[3] == null}
+					<span class='list_emoji'>4</span><h5 class='list_head'>{data.d.ttd_names[3]}</h5>
+					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[3]}</span><h5 class='list_head'>{data.d.gems_names[3]}</h5>
+					{/if}
 				</div>
 				<div class='list_row getout'>
+					{#if data.d.gems_emojis[4] == null}
+					<span class='list_emoji'>5</span><h5 class='list_head'>{data.d.ttd_names[4]}</h5>
+					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[4]}</span><h5 class='list_head'>{data.d.gems_names[4]}</h5>
+					{/if}
 				</div>
 			</div>
 			<div class='card_content_expanded'>
 				<div id='close_gems' class='close_card getin'><span class='ico_close'></span></div>
 				<h4 class='card_headline dup'>Off the beaten path</h4>
 				<div class='list_row getin'>
-					<span class='list_emoji'>{data.d.gems_emojis[0]}</span><h5 class='list_head_exp'>{data.d.gems_names[0]}</h5>
+					{#if data.d.gems_emojis[0] == null}
+					<span class='list_emoji'>1</span><h5 class='list_head'>{data.d.ttd_names[0]}</h5>
+					{:else}
+					<span class='list_emoji'>{data.d.gems_emojis[0]}</span><h5 class='list_head'>{data.d.gems_names[0]}</h5>
+					{/if}
 					<p id='ttd1' class='list_para getin'>{data.d.gems_descriptions[0]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.gems_names[0] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>{data.d.gems_emojis[1]}</span><h5 class='list_head_exp'>{data.d.gems_names[1]}</h5>
+					{#if data.d.gems_emojis[1] == null}
+					<span class='list_emoji'>2</span><h5 class='list_head'>{data.d.ttd_names[1]}</h5>
+					{:else}
+					<span class='list_emoji'>{data.d.gems_emojis[1]}</span><h5 class='list_head'>{data.d.gems_names[1]}</h5>
+					{/if}
 					<p id='ttd2' class='list_para getin'>{data.d.gems_descriptions[1]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.gems_names[1] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>{data.d.gems_emojis[2]}</span><h5 class='list_head_exp'>{data.d.gems_names[2]}</h5>
+					{#if data.d.gems_emojis[2] == null}
+					<span class='list_emoji'>3</span><h5 class='list_head'>{data.d.ttd_names[2]}</h5>
+					{:else}
+					<span class='list_emoji'>{data.d.gems_emojis[2]}</span><h5 class='list_head'>{data.d.gems_names[2]}</h5>
+					{/if}
 					<p id='ttd3' class='list_para getin'>{data.d.gems_descriptions[2]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.gems_names[2] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>{data.d.gems_emojis[3]}</span><h5 class='list_head_exp'>{data.d.gems_names[3]}</h5>
+					{#if data.d.gems_emojis[3] == null}
+					<span class='list_emoji'>4</span><h5 class='list_head'>{data.d.ttd_names[3]}</h5>
+					{:else}
+					<span class='list_emoji'>{data.d.gems_emojis[3]}</span><h5 class='list_head'>{data.d.gems_names[3]}</h5>
+					{/if}
 					<p id='ttd4' class='list_para getin'>{data.d.gems_descriptions[3]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.gems_names[3] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
 				<div class='list_row getin'>
-					<span class='list_emoji'>{data.d.gems_emojis[4]}</span><h5 class='list_head_exp'>{data.d.gems_names[4]}</h5>
+					{#if data.d.gems_emojis[4] == null}
+					<span class='list_emoji'>5</span><h5 class='list_head'>{data.d.ttd_names[4]}</h5>
+					{:else}
+					<span class='list_emoji'>{data.d.gems_emojis[4]}</span><h5 class='list_head'>{data.d.gems_names[4]}</h5>
+					{/if}
 					<p id='ttd5' class='list_para getin'>{data.d.gems_descriptions[4	]}</p>
 					<a href='https://www.google.com/maps/search/?api=1&query={data.d.gems_names[4] + ' ' + data.d.name_ascii}' class='gmaps_link' target="_blank"><span class="link_icon ico_gmaps_36"></span>Google Maps</a>
 				</div>
@@ -815,7 +895,7 @@
 
 	</div>
 
-	<h3 class='content_headline'>Mindful meowler tips</h3>
+	<h3 class='content_headline'>Mindful meoweler tips</h3>
 
 </div>
 
@@ -1230,6 +1310,10 @@
 		color: rgba(0,0,0,0.6);
 	}
 
+	.card_small_text::first-letter, .card_medium_text::first-letter {
+		text-transform: uppercase;
+	}
+
 	.card_medium_text {
 		font-size: 16px;
 		line-height: 23px;
@@ -1548,11 +1632,17 @@
 
 		#ilu_and_meow {
 			width: calc(100vw - 5vw);
+			height: 40vw;
 /*			background-color: #092;*/
+		}
+
+		#city_ilu {
+			height: 40vw;
 		}
 
 		#tagline {
 			width: 75%;
+			max-width: 600px;
 		}
 
 		.close_card {
@@ -1600,8 +1690,10 @@
 		}
 
 		#ilu_and_meow {
-			height: 60vh;
+			height: 40vw;
 			margin-left: 0;
+			margin-top: 48px;
+			width: 100%;
 		}
 
 
@@ -1696,6 +1788,11 @@
 			display: block;
 		}
 
+		#city_ilu {
+			border-radius: 40px 40px 40px 40px;
+			height: 40vw;
+		}
+
 
 		.meow_tip {
 			width: 30%;
@@ -1707,6 +1804,12 @@
 
 		.tip_last {
 			padding-right: 0;
+		}
+
+		#wrapall {
+			width: 100%;
+			padding-left: 5%;
+			padding-right: 5%;
 		}
 
 	}
@@ -1721,6 +1824,7 @@
 			font-size: 44px;
 			line-height: 50px;
 			width: 760px;
+			max-width: 760px;
 		}
 
 		#ilu_and_meow {
