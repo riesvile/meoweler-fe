@@ -1,6 +1,6 @@
 
 
-<a href='#' class='discord_banner'>
+<a href='https://discord.gg/yDuNVFfmMd' class='discord_banner'>
 	<span class='ico_discord banner_icon'></span>
 	<p class='banner_text'>Pounce onto our travel community</p>
 </a>

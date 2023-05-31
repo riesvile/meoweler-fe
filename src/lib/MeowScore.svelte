@@ -193,6 +193,10 @@
 		z-index: 100;
 	}*/
 
+	#meow_label {
+		display: none;
+	}
+
 	#meow_score {
 		background-color: rgba(255, 255, 255, 0);
 		position: absolute;
@@ -308,6 +312,7 @@
 		}
 
 		#meow_label {
+			display: block;
 			position: absolute;
     		top: 10px;
     		left: 70px;
