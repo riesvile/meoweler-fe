@@ -932,6 +932,8 @@
 
 <div class="space_xl"></div>
 
+{#if data.d.websites != undefined}
+
 <div id='external_sites'>
 
 	<h3 class='content_headline_external'>Useful external sites</h3>
@@ -953,6 +955,8 @@
 	</div>
 
 </div>
+
+{/if}
 
 
 <SeeNext more_meowsome={data.more} />
