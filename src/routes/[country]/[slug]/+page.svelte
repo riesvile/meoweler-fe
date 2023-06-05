@@ -2,6 +2,7 @@
 <script>
   import MeowScore from '$lib/MeowScore.svelte'
   import Footer from '$lib/Footer.svelte'
+  import SeeNext from '$lib/SeeNext.svelte'
   import anime from "animejs";
   import { beforeUpdate, afterUpdate, onMount } from 'svelte';
   import { scales } from '$lib/helpers.js';
@@ -111,31 +112,35 @@
   });
 
   afterUpdate(() => {
-		let temp_internet_rating = data.d.net_speed[0] + data.d.net_availability[0]*2 + data.d.net_coverage[0];
-		// console.log('here');
-		// console.log('net = ' + (temp_internet_rating / 4));
-		internetRating = temp_internet_rating / 4;
-		if (internetRating >= 8){ internetString = scales.internet[0] }
-		else if (internetRating >= 7){ internetString = scales.internet[1] }
-		else if (internetRating >= 6){ internetString = scales.internet[2] }
-		else if (internetRating >= 5){ internetString = scales.internet[3] }
-		else { internetString = scales.internet[4] }
+  	// console.log("update triggered");
 		// console.log(internetRating)
 		// console.log(internetString)
 		if (current_city != data.d.name_ascii){
 			current_city = data.d.name_ascii;
+			let temp_internet_rating = data.d.net_speed[0] + data.d.net_availability[0]*2 + data.d.net_coverage[0];
+			// console.log('here');
+			// console.log('net = ' + (temp_internet_rating / 4));
+			internetRating = temp_internet_rating / 4;
+			if (internetRating >= 8){ internetString = scales.internet[0] }
+			else if (internetRating >= 7){ internetString = scales.internet[1] }
+			else if (internetRating >= 6){ internetString = scales.internet[2] }
+			else if (internetRating >= 5){ internetString = scales.internet[3] }
+			else { internetString = scales.internet[4] }
+
+			currency_converter_link = "https://www.google.com/finance/quote/" + data.c.currency_code + "-USD";
+			main_image = "background-image: url(https://meowy.sfo3.digitaloceanspaces.com/cities/" + data.slug.replace(/\s+/g, '').replace('\'','') + "-" + data.coun + ".png), url(/assets/mini/" + data.slug.replace(/\s+/g, '').replace('\'','') + "-" + data.coun + "-t.png), url(/assets/random" + random_int(1, 5) + ".png)";
+			try {
+				bm_index = Math.round(bmi[data.d.country]['dollar'] * 10) / 10;
+			} catch(e) {
+				console.log(e)
+			}
+
 			get_time();
 		}
 
 
 
-		currency_converter_link = "https://www.google.com/finance/quote/" + data.c.currency_code + "-USD";
-		main_image = "background-image: url(https://meoweler.fra1.digitaloceanspaces.com/cities/" + data.slug.replace(/\s+/g, '') + "-" + data.coun + ".png), url(/assets/mini/" + data.slug.replace(/\s+/g, '') + "-" + data.coun + "-t.png)";
-		try {
-			bm_index = Math.round(bmi[data.d.country]['dollar'] * 10) / 10;
-		} catch(e) {
-			console.log(e)
-		}
+		
 
 		// get_time()
   });
@@ -765,48 +770,50 @@
 			<div class='card_background'></div>
 			<div class='card_content_collapsed'>
 				<h4 class='card_headline keep'>Off the beaten path</h4>
+				{#if data.d.gems_names != undefined || data.d.gems_names != null}
 				<div class='list_row getout'>
 					{#if data.d.gems_emojis[0] == null}
-					<span class='list_emoji'>1</span><h5 class='list_head'>{data.d.ttd_names[0]}</h5>
+					<span class='list_emoji'>1</span><h5 class='list_head'>{data.d.gems_names[0]}</h5>
 					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[0]}</span><h5 class='list_head'>{data.d.gems_names[0]}</h5>
 					{/if}
 				</div>
 				<div class='list_row getout'>
 					{#if data.d.gems_emojis[1] == null}
-					<span class='list_emoji'>2</span><h5 class='list_head'>{data.d.ttd_names[1]}</h5>
+					<span class='list_emoji'>2</span><h5 class='list_head'>{data.d.gems_names[1]}</h5>
 					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[1]}</span><h5 class='list_head'>{data.d.gems_names[1]}</h5>
 					{/if}
 				</div>
 				<div class='list_row getout'>
 					{#if data.d.gems_emojis[2] == null}
-					<span class='list_emoji'>3</span><h5 class='list_head'>{data.d.ttd_names[2]}</h5>
+					<span class='list_emoji'>3</span><h5 class='list_head'>{data.d.gems_names[2]}</h5>
 					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[2]}</span><h5 class='list_head'>{data.d.gems_names[2]}</h5>
 					{/if}
 				</div>
 				<div class='list_row getout'>
 					{#if data.d.gems_emojis[3] == null}
-					<span class='list_emoji'>4</span><h5 class='list_head'>{data.d.ttd_names[3]}</h5>
+					<span class='list_emoji'>4</span><h5 class='list_head'>{data.d.gems_names[3]}</h5>
 					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[3]}</span><h5 class='list_head'>{data.d.gems_names[3]}</h5>
 					{/if}
 				</div>
 				<div class='list_row getout'>
 					{#if data.d.gems_emojis[4] == null}
-					<span class='list_emoji'>5</span><h5 class='list_head'>{data.d.ttd_names[4]}</h5>
+					<span class='list_emoji'>5</span><h5 class='list_head'>{data.d.gems_names[4]}</h5>
 					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[4]}</span><h5 class='list_head'>{data.d.gems_names[4]}</h5>
 					{/if}
 				</div>
+				{/if}
 			</div>
 			<div class='card_content_expanded'>
 				<div id='close_gems' class='close_card getin'><span class='ico_close'></span></div>
 				<h4 class='card_headline dup'>Off the beaten path</h4>
 				<div class='list_row getin'>
 					{#if data.d.gems_emojis[0] == null}
-					<span class='list_emoji'>1</span><h5 class='list_head'>{data.d.ttd_names[0]}</h5>
+					<span class='list_emoji'>1</span><h5 class='list_head'>{data.d.gems_names[0]}</h5>
 					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[0]}</span><h5 class='list_head'>{data.d.gems_names[0]}</h5>
 					{/if}
@@ -815,7 +822,7 @@
 				</div>
 				<div class='list_row getin'>
 					{#if data.d.gems_emojis[1] == null}
-					<span class='list_emoji'>2</span><h5 class='list_head'>{data.d.ttd_names[1]}</h5>
+					<span class='list_emoji'>2</span><h5 class='list_head'>{data.d.gems_names[1]}</h5>
 					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[1]}</span><h5 class='list_head'>{data.d.gems_names[1]}</h5>
 					{/if}
@@ -824,7 +831,7 @@
 				</div>
 				<div class='list_row getin'>
 					{#if data.d.gems_emojis[2] == null}
-					<span class='list_emoji'>3</span><h5 class='list_head'>{data.d.ttd_names[2]}</h5>
+					<span class='list_emoji'>3</span><h5 class='list_head'>{data.d.gems_names[2]}</h5>
 					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[2]}</span><h5 class='list_head'>{data.d.gems_names[2]}</h5>
 					{/if}
@@ -833,7 +840,7 @@
 				</div>
 				<div class='list_row getin'>
 					{#if data.d.gems_emojis[3] == null}
-					<span class='list_emoji'>4</span><h5 class='list_head'>{data.d.ttd_names[3]}</h5>
+					<span class='list_emoji'>4</span><h5 class='list_head'>{data.d.gems_names[3]}</h5>
 					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[3]}</span><h5 class='list_head'>{data.d.gems_names[3]}</h5>
 					{/if}
@@ -842,7 +849,7 @@
 				</div>
 				<div class='list_row getin'>
 					{#if data.d.gems_emojis[4] == null}
-					<span class='list_emoji'>5</span><h5 class='list_head'>{data.d.ttd_names[4]}</h5>
+					<span class='list_emoji'>5</span><h5 class='list_head'>{data.d.gems_names[4]}</h5>
 					{:else}
 					<span class='list_emoji'>{data.d.gems_emojis[4]}</span><h5 class='list_head'>{data.d.gems_names[4]}</h5>
 					{/if}
@@ -924,6 +931,34 @@
 </div>
 
 <div class="space_xl"></div>
+
+<div id='external_sites'>
+
+	<h3 class='content_headline_external'>Useful external sites</h3>
+
+	<div class='sites_wrap'>
+
+		{#each Object.entries(data.d.websites) as [site, val], index}
+		<div class='site_result'>
+			<a href="{val[2]}" target="_blank" class='ext_site'>
+				<span class='url_favicon' style="background-image: url(https://icon.horse/icon/{val[2].replace(/^(?:https?:\/\/)?(?:[^\/]+\.)?([^.\/]+\.[^.\/]+).*$/, "$1")})"></span><span class='url_string'>{val[2].replace(/(^\w+:|^)\/\//, '').replace(/\/$/, '')}</span>
+				<h4 class='url_name'>{val[0]}<sup class='sup'>↗</sup></h4>
+			</a>
+			<p class='url_desc'>{val[1]}</p>
+		</div>
+		{/each}
+
+		<hr style='clear: both; visibility: hidden;'>
+
+	</div>
+
+</div>
+
+
+<SeeNext more_meowsome={data.more} />
+
+
+
 <div class="space_m"></div>
 
 <Footer/>
@@ -936,6 +971,58 @@
 
 
 <style>
+
+	p.url_desc {
+		margin-top: 8px;
+		font-size: 16px;
+		color: rgba(0, 0, 0, 0.72);
+	}
+
+	h4.url_name {
+		display: block;
+		clear: both;
+		color: #7D59CA;
+		font-size: 24px;
+		font-weight: 400;
+		padding-top: 4px;
+	}
+
+	.url_favicon {
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		float: left;
+/*		background-color: #ddd;*/
+		background-size: cover;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+	}
+
+	.url_string {
+		display: inline-block;
+		float: left;
+		color: rgba(0, 0, 0, 0.6);
+		margin-left: 10px;
+		font-size: 15px;
+		line-height: 16px;
+		width: 90%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.site_result {
+		max-width: 400px;
+		width: calc(100% - 32px);
+		margin-bottom: 28px;
+	}
+
+	.sup {
+		font-size: 12px;
+	}
+
+	a {
+		text-decoration: none;
+	}
 
 	.meow_tip_img {
 		background-size: cover;
@@ -1011,6 +1098,11 @@
 		color: rgba(0, 0, 0, 0.72);
 		width: 94%;
 		margin-top: 8px;
+	}
+
+	#external_sites {
+		margin-left: 16px;
+		margin-bottom: 60px;
 	}
 
 	#restrest {
@@ -1160,6 +1252,16 @@
 		margin-bottom: 20px;
 		margin-left: 4px;
 		margin-top: 40px;
+		clear: both;
+	}
+
+	h3.content_headline_external {
+		font-size: 32px;
+		font-weight: 400;
+		color: #000;
+		margin-bottom: 20px;
+		margin-left: 0px;
+		margin-top: 0px;
 		clear: both;
 	}
 
@@ -1627,7 +1729,7 @@
 			-webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
-			background: linear-gradient(0deg, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+			background: linear-gradient(0deg, rgba(255,255,255,1) 70%, rgba(255,255,255,0) 100%);
 		}
 
 		#ilu_and_meow {
@@ -1683,6 +1785,21 @@
 	}
 
 	@media (min-width: 1056px) {
+
+
+
+		.site_result {
+			max-width: none;
+			width: 30%;
+			margin-right: 3%;
+			float: left;
+			margin-bottom: 28px;
+		}
+
+		#external_sites {
+			margin-left: 0px;
+			margin-bottom: 60px;
+		}
 
 
 		.text_intro {
@@ -1830,10 +1947,12 @@
 		#ilu_and_meow {
 			margin-top: 48px;
 			width: 100%;
+			height: 45vw;
 		}
 
 		#city_ilu {
 			border-radius: 40px 40px 40px 40px;
+			height: 45vw;
 		}
 
 		#wrapall {

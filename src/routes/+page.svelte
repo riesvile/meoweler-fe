@@ -141,7 +141,9 @@
 <div class="space_xl"></div>
 <div class="space_m"></div>
 
-<Footer/>
+<div id='meow_foot_wrap'>
+	<Footer/>
+</div>
 
 </div>
 
@@ -246,8 +248,18 @@
 		display: block;
 	}
 
+	@media (min-width: 800px) {
+
+		#meow_foot_wrap {
+			margin-left: 5%;
+		}
+
+	}
+
 
 	@media (min-width: 1056px) {
+
+
 
 		.col {
 			width: 33%;

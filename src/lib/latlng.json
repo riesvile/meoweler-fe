@@ -29866,5 +29866,17 @@
     "lat": 74.0165,
     "lng": 111.51,
     "co": "Russia"
+  },
+  {
+    "ci": "Karlovy Vary",
+    "lat": 50.231853,
+    "lng": 12.871962,
+    "co": "Czechia"
+  },
+  {
+    "ci": "Key West",
+    "lat": 24.555059,
+    "lng": -81.779984,
+    "co": "United States"
   }
 ]

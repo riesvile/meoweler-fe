@@ -41,7 +41,9 @@
 
 	<div class="space_m"></div>
 
+	<div id='meow_foot_wrap'>
 	<Footer/>
+	</div>
 
 </div>
 
@@ -50,6 +52,7 @@
 
 
 <style>
+
 
 	main {
 		background-color: #fff;
@@ -139,6 +142,10 @@
 	}
 
 	@media (min-width: 800px) {
+
+		#meow_foot_wrap {
+			margin-left: 5%;
+		}
 		
 
 		.rank_row, .meowilu, h2, p, h3 {

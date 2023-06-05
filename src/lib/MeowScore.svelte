@@ -148,10 +148,13 @@
 <div id='meow_score'>
 	<div id='meow_score_summary' on:click={(event) => score_details()}>
 		<span id='meow_label'>MeowScore</span>
+		{#if meowscore != undefined}
 		<span id='meow_summary_emoji'>{meowscore_emoji(meowscore)}</span>{meowscore}<span class='dimmed'>/100</span>
+		{/if}
 	</div>
 	<a href='/meowscore' id='meow_what'>What is MeowScore?</a>
 	<div id='meow_score_expanded'>
+		{#if meow_data != undefined}
 		<div class='meow_score_item'>
 			<span class='score_item_text'>🐈 Cats in the city</span>
 			<span class='score_item_rating'>{meow_emoji(meow_data['cats-in-city'][0])}</span>
@@ -180,6 +183,7 @@
 			<span class='score_item_text'>👮‍♂️ Safety</span>
 			<span class='score_item_rating'>{meow_emoji(meow_data['safety'][0])}</span>
 		</div>
+		{/if}
 		<div class='space_s'></div>
 	</div>
 </div>

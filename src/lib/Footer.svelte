@@ -95,7 +95,7 @@
 
 @media (min-width: 800px) {
 	#footer_logo, .ai_disclaimer, .madeby {
-		margin-left: 5%;
+		margin-left: 0%;
 		text-align: left;
 	}
 
