@@ -1,4 +1,3 @@
-
 let latest_data = [
 	{
 		name_ascii: 'Tokyo',

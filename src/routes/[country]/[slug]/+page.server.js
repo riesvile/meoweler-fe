@@ -1,4 +1,3 @@
-
 import top from '$lib/top.json';
 import top2 from '$lib/top2.json';
 import top3 from '$lib/top3.json';
@@ -56,7 +55,6 @@ let file_map = {
 	p105000: top24,
 	p100000: top25,
 	p20000: bot1,
-
 }
 
 function random_int(min, max) { // min and max included 
@@ -97,7 +95,6 @@ function get_country_content(country_name){
 
 
 function which_file(population){
-
 	console.log('population = ' + population)
 
 	if (population >= 6000000) return 'p6000000';
@@ -126,12 +123,10 @@ function which_file(population){
 	if (population >= 105000) return 'p105000';
 	if (population >= 100000) return 'p100000';
 	if (population >= 20000) return 'p20000';
-
 }
 
 function see_next(country_short, slug){
 	let next_items = [];
-
 
 	let temp_results = cities.filter(function(city){
 		let check = (city.co).toLowerCase().substring(0,3) + city.co.slice(-1);
@@ -166,7 +161,6 @@ function see_next(country_short, slug){
 	return next_items;
 }
 
-
 function check_population(slug, threshold = 1000000){
 	let temp_result = {};
 	temp_result = cities.filter(function(city){
@@ -177,7 +171,6 @@ function check_population(slug, threshold = 1000000){
 	// console.log(temp_result[0].p)
 	return (which_file(temp_result[0].p));
 }
-
 
 export const load = ({ params }) => {
 	// console.log('ttest');
@@ -215,5 +208,3 @@ export const load = ({ params }) => {
 	// }
 	
 }
-
-

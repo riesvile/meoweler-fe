@@ -1,4 +1,3 @@
-
 const economy = [
 	['💸', 'Extremely affordable'],
 	['🛍️', 'Wallet friendly'],
@@ -7,12 +6,12 @@ const economy = [
 	['💎', 'Exorbitant prices'],
 ];
 
-const meow = ['😿','😾','😼','😸','😻', '🙀'];
+const meow = ['😿','😾','😼','😸','😻','🙀'];
 
 const biking = ['biking friendly', 'biking possible', 'biking hostile'];
 const walking = ['walkable', 'walkable -ish', 'walking hostile'];
 const lgbtq = ['LGBTQ friendly', 'LGBTQ tolerated', 'LGBTQ hostile'];
-const internet = ['excellent', 'great', 'good', 'meh', 'bad']
+const internet = ['excellent', 'great', 'good', 'meh', 'bad'];
 
 const leaderboard = [
 	{
@@ -44,7 +43,7 @@ const leaderboard = [
 		name: 'Yangzhou',
 		country: 'China',
 		score: 107
-	},
+	}
 ]
 
 const popular = [
@@ -65,22 +64,4 @@ const popular = [
 	['Marrakech', 'Morocco']
 ]
 
-
-export const scales = {
-	'economy': economy,
-	'biking': biking,
-	'walking': walking,
-	'lgbtq': lgbtq,
-	'internet': internet,
-	'meow': meow,
-	'leaderboard': leaderboard,
-	'popular': popular
-}
-
-
-
-
-
-
-
-
+export const scales = {economy, biking, walking, lgbtq, internet, meow, leaderboard, popular}

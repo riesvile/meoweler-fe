@@ -1,147 +1,142 @@
-
 <script>
-	
-	import { createEventDispatcher } from 'svelte';
-	import anime from "animejs";
-	import { scales } from '$lib/helpers.js';
+import { createEventDispatcher } from 'svelte';
+import anime from "animejs";
+import { scales } from '$lib/helpers.js';
 
-	export let meow_expanded;
-	export let meow_data;
-	export let meowscore;
+export let meow_expanded;
+export let meow_data;
+export let meowscore;
 
-	const dispatch = createEventDispatcher();
+const dispatch = createEventDispatcher();
 
-	$: if (meow_expanded == 1) {
-		score_details(0);
-		dispatch('message', {
-			text: 'reset'
+$: if (meow_expanded == 1) {
+	score_details(0);
+	dispatch('message', {
+		text: 'reset'
+	});
+}
+
+// function overlay(state){
+//   	console.log(state);
+
+//   	if (state) {
+//   		overlay_protection.style.pointerEvents = 'auto';
+//   	} else {
+//   		overlay_protection.style.pointerEvents = 'none';
+//   	}
+
+//   	anime({
+//   		targets: overlay_protection,
+//   		opacity: +state,
+//   		backdropFilter: 'blur(4px)',
+//   		'-webkit-backdrop-filter': 'blur(4px)',
+//   		duration: 200,
+//   		easing: 'easeOutQuad'
+//   	})
+// }
+
+function score_details(state = 1){
+	// console.log(e.target.id)
+	// console.log('tetet');
+
+	if (state){
+		document.getElementById('meow_score_expanded').style.opacity = 1;
+		document.getElementById('meow_score').style.zIndex = 5;
+		document.getElementById('meow_what').style.pointerEvents = 'auto';
+
+		anime({
+	  		targets: '#meow_score',
+	  		backgroundColor: ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)'],
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
+
+	  	anime({
+	  		targets: '#meow_score_expanded',
+	  		scale: [0.8, 1],
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
+
+	  	anime({
+	  		targets: '#meow_score_summary',
+	  		translateX: ['0px', '8px'],
+	  		translateY: ['0px', '12px'],
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
+
+	  	anime({
+	  		targets: '#meow_what',
+	  		opacity: 1,
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
+
+	  	dispatch('message', {
+			text: 'overlay'
 		});
-	}
 
-	// function overlay(state){
-	//   	console.log(state);
-	  	
-	//   	if (state) {
-	//   		overlay_protection.style.pointerEvents = 'auto';
-	//   	} else {
-	//   		overlay_protection.style.pointerEvents = 'none';
-	//   	}
+	} else {
+		// document.getElementById('meow_score_expanded').style.opacity = 0;
+		document.getElementById('meow_what').style.pointerEvents = 'none';
 
-	//   	anime({
-	//   		targets: overlay_protection,
-	//   		opacity: +state,
-	//   		backdropFilter: 'blur(4px)',
-	//   		'-webkit-backdrop-filter': 'blur(4px)',
-	//   		duration: 200,
-	//   		easing: 'easeOutQuad'
-	//   	})
-	// }
+		anime({
+	  		targets: '#meow_score',
+	  		backgroundColor: ['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 0)'],
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
 
-	function score_details(state = 1){
-		// console.log(e.target.id)
-		// console.log('tetet');
+	  	anime({
+	  		targets: '#meow_score_expanded',
+	  		scale: [1, 0.8],
+	  		opacity: 0,
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
 
-		if (state){
-			document.getElementById('meow_score_expanded').style.opacity = 1;
-			document.getElementById('meow_score').style.zIndex = 5;
-			document.getElementById('meow_what').style.pointerEvents = 'auto';
+	  	anime({
+	  		targets: '#meow_score_summary',
+	  		translateX: ['8px', '0px'],
+	  		translateY: ['12px', '0px'],
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
 
-			anime({
-		  		targets: '#meow_score',
-		  		backgroundColor: ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)'],
-		  		duration: 150,
-		  		easing: 'easeOutQuad'
-		  	})
+	  	anime({
+	  		targets: '#meow_what',
+	  		opacity: 0,
+	  		duration: 150,
+	  		easing: 'easeOutQuad'
+	  	})
 
-		  	anime({
-		  		targets: '#meow_score_expanded',
-		  		scale: [0.8, 1],
-		  		duration: 150,
-		  		easing: 'easeOutQuad'
-		  	})
-
-		  	anime({
-		  		targets: '#meow_score_summary',
-		  		translateX: ['0px', '8px'],
-		  		translateY: ['0px', '12px'],
-		  		duration: 150,
-		  		easing: 'easeOutQuad'
-		  	})
-
-		  	anime({
-		  		targets: '#meow_what',
-		  		opacity: 1,
-		  		duration: 150,
-		  		easing: 'easeOutQuad'
-		  	})
-
-		  	dispatch('message', {
-				text: 'overlay'
-			});
-
-		} else {
-			// document.getElementById('meow_score_expanded').style.opacity = 0;
-			document.getElementById('meow_what').style.pointerEvents = 'none';
-
-			anime({
-		  		targets: '#meow_score',
-		  		backgroundColor: ['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 0)'],
-		  		duration: 150,
-		  		easing: 'easeOutQuad'
-		  	})
-
-		  	anime({
-		  		targets: '#meow_score_expanded',
-		  		scale: [1, 0.8],
-		  		opacity: 0,
-		  		duration: 150,
-		  		easing: 'easeOutQuad'
-		  	})
-
-		  	anime({
-		  		targets: '#meow_score_summary',
-		  		translateX: ['8px', '0px'],
-		  		translateY: ['12px', '0px'],
-		  		duration: 150,
-		  		easing: 'easeOutQuad'
-		  	})
-
-		  	anime({
-		  		targets: '#meow_what',
-		  		opacity: 0,
-		  		duration: 150,
-		  		easing: 'easeOutQuad'
-		  	})
-
-		  	setTimeout(() => {
-			  document.getElementById('meow_score').style.zIndex = 4;
-			}, 150);
-
-		}
-
-		
+	  	setTimeout(() => {
+		  document.getElementById('meow_score').style.zIndex = 4;
+		}, 150);
 
 	}
 
-	function meow_emoji(num){
-		if (num >= 9) return scales.meow[4]
-		if (num >= 7) return scales.meow[3]
-		if (num >= 5) return scales.meow[2]
-		if (num >= 4) return scales.meow[1]
-		if (num < 4) return scales.meow[0]
-	}
-
-	function meowscore_emoji(num){
-		if (num > 100) return scales.meow[5];
-		if (num >= 91) return scales.meow[4];
-		if (num >= 81) return scales.meow[3];
-		if (num >= 71) return scales.meow[2];
-		if (num >= 61) return scales.meow[1];
-		return scales.meow[0];
-	}
 
 
+}
 
+function meow_emoji(num){
+	if (num >= 9) return scales.meow[4]
+	if (num >= 7) return scales.meow[3]
+	if (num >= 5) return scales.meow[2]
+	if (num >= 4) return scales.meow[1]
+	if (num < 4) return scales.meow[0]
+}
+
+function meowscore_emoji(num){
+	if (num > 100) return scales.meow[5];
+	if (num >= 91) return scales.meow[4];
+	if (num >= 81) return scales.meow[3];
+	if (num >= 71) return scales.meow[2];
+	if (num >= 61) return scales.meow[1];
+	return scales.meow[0];
+}
 </script>
 
 
@@ -189,7 +184,6 @@
 </div>
 
 <style>
-
 	/*#meow_background {
 		width: 100%;
 		height: 100%;
@@ -259,7 +253,6 @@
 		position: relative;
 		top: 0;
 		left: 0;
-
 	}
 
 	.meow_score_item {
@@ -291,7 +284,6 @@
 			width: 360px;
 		}
 	}
-
 
 	@media (min-width: 1520px) {
 		#meow_score {
@@ -339,10 +331,7 @@
 		    width: 100px;
 		    line-height: 20px;
 		}
-
 	}
-
-
 
 	/*#meow_score {
 		background-color: #fff;

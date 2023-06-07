@@ -12,9 +12,4 @@ const walking = ['walkable', 'walkable -ish', 'walking hostile'];
 const lgbtq = ['LGBTQ friendly', 'LGBTQ tolerated', 'LGBTQ hostile'];
 
 
-export const scales = {
-	'economy': economy,
-	'biking': biking,
-	'walking': walking,
-	'lgbtq': lgbtq
-}
+export const scales = {economy, biking, walking, lgbtq}

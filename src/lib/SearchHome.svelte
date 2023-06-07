@@ -1,10 +1,9 @@
-
 <script>
-
-let search_active = false;
 import anime from "animejs";
 import cities from '$lib/cunts.json';
-import { page } from '$app/stores';  
+import { page } from '$app/stores';
+
+let search_active = false;
 
 // console.log('testload');
 // console.log($page.url.pathname); 
@@ -25,12 +24,9 @@ function redirect_to(cityname){
 	search_trigger();
 }
 
-
 function update_results(ar){
 	let hole = document.getElementById('results');
-
 }
-
 
 function get_results(q, howmany=7){
 	let temp_results = [];
@@ -91,16 +87,9 @@ function search_trigger(e){
 			searchTerm = "";
 			search_results = [];
 		}, 150);
-		
 	}
-
 }
-
 </script>
-
-
-
-
 
 <div id='search_wrap'>
 
@@ -162,191 +151,179 @@ function search_trigger(e){
 
 
 <style>
+#search_on_home {
 
-	
-	#search_on_home {
-		
-	}
+}
 
-
-	.test_img {
+.test_img {
 /*		background-image: url("/assets/mini/ilu_prague.jpg"), url("/assets/mini/ilu_fallback.jpg");*/
-	}
+}
 
-	.result_countryname {
-	}
+.result_countryname {
+}
 
-	.cityname {
-		color: rgba(0, 0, 0, 1.0);
-	}
+.cityname {
+	color: rgba(0, 0, 0, 1.0);
+}
 
-	.result_text{
-		font-size: 22px;
-		font-weight: 400;
-		line-height: 40px;
-		float: left;
-		margin-left: 16px;
-		color: rgba(0, 0, 0, 0.46);
-		width: calc(100% - 80px - 16px);
+.result_text{
+	font-size: 22px;
+	font-weight: 400;
+	line-height: 40px;
+	float: left;
+	margin-left: 16px;
+	color: rgba(0, 0, 0, 0.46);
+	width: calc(100% - 80px - 16px);
 /*		background-color: #903;*/
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
-	}
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
 
-	.result_img {
-		width: 80px;
-		height: 40px;
-		background-color: #083;
-		float: left;
-		border-radius: 40px;
-		background-size: cover;
-	}
+.result_img {
+	width: 80px;
+	height: 40px;
+	background-color: #083;
+	float: left;
+	border-radius: 40px;
+	background-size: cover;
+}
 
-	.search_result {
-		width: 100%;
-		height: 40px;
+.search_result {
+	width: 100%;
+	height: 40px;
 /*		margin-top: 12px;*/
-		display: block;
-		padding: 6px 0px;
+	display: block;
+	padding: 6px 0px;
 /*		background-color: #978;*/
-	}
+}
 
-	#results {
-		position: fixed;
-		top: 80px;
-		left: 16px;
-		width: calc(100% - 32px)
-	}
+#results {
+	position: fixed;
+	top: 80px;
+	left: 16px;
+	width: calc(100% - 32px)
+}
 
-	.scrollhack {
-		font-size: 40px;
-		color: #888;
-		height: 101vh;
-		width: 1px;
-		position: absolute;
-		top: 0;
-	}
+.scrollhack {
+	font-size: 40px;
+	color: #888;
+	height: 101vh;
+	width: 1px;
+	position: absolute;
+	top: 0;
+}
 
-	#query {
-		position: fixed;
-		top: 30px;
-		left: 16px;
-		font-family: Satoshi;
-		font-size: 20px;
-		font-weight: 400;
-		border: 0;
-		outline: 0;
-		background: transparent;
-		border: none;
-	}
+#query {
+	position: fixed;
+	top: 30px;
+	left: 16px;
+	font-family: Satoshi;
+	font-size: 20px;
+	font-weight: 400;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	border: none;
+}
 
-	#search_expanded {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: #fff;
+#search_expanded {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
 /*		opacity: 0.8;*/
-		overflow: scroll;
-		overscroll-behavior: contain;
+	overflow: scroll;
+	overscroll-behavior: contain;
 /*		pointer-events: none;*/
 /*		z-index: 20;*/
-		display: none;
-		opacity: 0;
-	}
+	display: none;
+	opacity: 0;
+}
 
-	#search_expanded::-webkit-scrollbar {
-	    display: none;
-	}
+#search_expanded::-webkit-scrollbar {
+    display: none;
+}
 
 
-	input[type="search"]::-webkit-search-cancel-button {
-  		-webkit-appearance: none;
-	}
+input[type="search"]::-webkit-search-cancel-button {
+		-webkit-appearance: none;
+}
 
-	.icon_mmm {
-		position: absolute;
-		top: 2px;
-		left: 2px;
-		width: 48px;
-		height: 48px;
-		display: block;
-		pointer-events: none;
-	}
+.icon_mmm {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 48px;
+	height: 48px;
+	display: block;
+	pointer-events: none;
+}
 
-	.placehold {
-		display: inline-block;
-		line-height: 52px;
-		margin-left: 50px;
-		color: rgba(0, 0, 0, 0.8);
-	}
+.placehold {
+	display: inline-block;
+	line-height: 52px;
+	margin-left: 50px;
+	color: rgba(0, 0, 0, 0.8);
+}
 
-	div#search {
-		/*position: absolute;
-		top: 16px;
-		right: 16px;
-		width: 48px;
-		height: 48px;
-		background-color: rgba(215, 200, 199, 0.4);
-		border-radius: 48px;*/
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(215, 200, 199, 0.4);
-		border-radius: 48px;
-		z-index: 1;
+div#search {
+	/*position: absolute;
+	top: 16px;
+	right: 16px;
+	width: 48px;
+	height: 48px;
+	background-color: rgba(215, 200, 199, 0.4);
+	border-radius: 48px;*/
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(215, 200, 199, 0.4);
+	border-radius: 48px;
+	z-index: 1;
 /*		color: rgba(0, 0, 0, 0.5);*/
 /*		backdrop-filter: blur(20px);*/
 /*  		-webkit-backdrop-filter: blur(20px);*/
-	}
+}
 
-	div#search_wrap {
-		position: relative;
-		margin-left: 16px;
-		margin-top: 30px;
-		margin-bottom: 16px;
-		width: calc(100% - 32px);
-		height: 52px;
+div#search_wrap {
+	position: relative;
+	margin-left: 16px;
+	margin-top: 30px;
+	margin-bottom: 16px;
+	width: calc(100% - 32px);
+	height: 52px;
 /*		background-color: rgba(210, 195, 194, 0.4);*/
-		border-radius: 48px;
-		z-index: 5;
+	border-radius: 48px;
+	z-index: 5;
+}
+
+div#search_wrap.open_search {
+	position: fixed;
+	top: 16px;
+	right: 16px;
+	width: 48px;
+	height: 48px;
+	background-color: rgba(215, 200, 199, 0.4);
+	border-radius: 48px;
+	z-index: 5;
+}
+
+@media (min-width: 1056px) {
+	div#search_wrap {
+		margin-left: 5%;
+		width: calc(90%);
 	}
+}
 
-	div#search_wrap.open_search {
-		position: fixed;
-		top: 16px;
-		right: 16px;
-		width: 48px;
-		height: 48px;
-		background-color: rgba(215, 200, 199, 0.4);
-		border-radius: 48px;
-		z-index: 5;
+@media (min-width: 1520px) {
+	div#search_wrap {
+		margin-left: 10%;
+		width: calc(80%);
 	}
-
-
-
-	@media (min-width: 1056px) {
-
-		div#search_wrap {
-			margin-left: 5%;
-			width: calc(90%);
-		}
-
-
-	}
-
-	@media (min-width: 1520px) {
-		div#search_wrap {
-			margin-left: 10%;
-			width: calc(80%);
-		}
-	}
-
-
-
-
+}
 </style>

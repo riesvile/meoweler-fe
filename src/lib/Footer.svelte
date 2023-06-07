@@ -1,5 +1,3 @@
-
-
 <a href='https://discord.gg/yDuNVFfmMd' class='discord_banner'>
 	<span class='ico_discord banner_icon'></span>
 	<p class='banner_text'>Pounce onto our travel community</p>
@@ -18,7 +16,6 @@
 
 
 <style>
-
 .footer_leaderboard {
 	font-size: 12px;
 	display: inline-block;
@@ -91,8 +88,6 @@
 	background-color: rgba(230, 228, 253, 1.0);
 }
 
-
-
 @media (min-width: 800px) {
 	#footer_logo, .ai_disclaimer, .madeby {
 		margin-left: 0%;
@@ -112,16 +107,12 @@
 		margin-bottom: 100px;
 	}
 
-
 	.discord_banner {
 		width: 358px;
 		float: right;
 		margin-right: 5%;
 		top: 100px;
 	}
-
-
-
 }
 
 @media (min-width: 1520px) {
@@ -133,19 +124,4 @@
 		margin-right: 10%;
 	}
 }
-
-
-
-
-
 </style>
-
-
-
-
-
-
-
-
-
-

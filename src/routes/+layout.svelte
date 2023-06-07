@@ -1,8 +1,7 @@
-
 <script>
-  import '../app.css'
-  import '../assets.css'
-  import Search from '$lib/Search.svelte'
+	import '../app.css'
+	import '../assets.css'
+	import Search from '$lib/Search.svelte'
 </script>
 
 
@@ -17,37 +16,33 @@
 
 
 <style>
-
-	a {
-		text-decoration: none;
-		color: #000;
+a {
+	text-decoration: none;
+	color: #000;
 /*		display: inline-block;*/
-	}
+}
 
-	#logo {
-		margin-top: 30px;
-		margin-left: 16px;
-		font-family: Satoshi;
-		font-size: 13px;
-		font-weight: 500;
-		letter-spacing: 1px;
-		text-transform: uppercase;
+#logo {
+	margin-top: 30px;
+	margin-left: 16px;
+	font-family: Satoshi;
+	font-size: 13px;
+	font-weight: 500;
+	letter-spacing: 1px;
+	text-transform: uppercase;
 /*		position: absolute;*/
-	}
+}
 
-	@media (min-width: 800px) {
-		#logo {
+@media (min-width: 800px) {
+	#logo {
 /*			color: #f00;*/
-			margin-left: 5%;
-		}
-
-
+		margin-left: 5%;
 	}
+}
 
-	@media (min-width: 1520px) {
-		#logo {
-			margin-left: 10%;
-		}
+@media (min-width: 1520px) {
+	#logo {
+		margin-left: 10%;
 	}
-
+}
 </style>

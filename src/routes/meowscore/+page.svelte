@@ -1,17 +1,13 @@
-
 <script>
-  
-  import { scales } from '$lib/helpers.js';
-  import Footer from '$lib/Footer.svelte'
+	import { scales } from '$lib/helpers.js';
+	import Footer from '$lib/Footer.svelte'
 
-  $: screenWidth = 0;
-  $: screenHeight = 0;
-
-
+	$: screenWidth = 0;
+	$: screenHeight = 0;
 </script>
 
 <svelte:head>
-    <title>MeowScore</title> 
+		<title>MeowScore</title>
 </svelte:head>
 
 <svelte:window bind:innerWidth={screenWidth} bind:innerHeight={screenHeight}/>
@@ -52,141 +48,109 @@
 
 
 <style>
+main {
+	background-color: #fff;
+}
 
+.country {
+	color: rgba(0, 0, 0, 0.46);
+}
 
-	main {
-		background-color: #fff;
+.emoji {
+	display: inline-block;
+	margin-right: 8px;
+	font-size: 28px;
+	line-height: 40px;
+	position: absolute;
+	top: -4px;
+	left: 0;
+}
+
+.row_left {
+	float: left;
+	line-height: 32px;
+	margin-left: 40px;
+	width: calc(100% - 122px);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #000;
+}
+
+.row_right {
+	float: right;
+	line-height: 32px;
+	color: #000;
+}
+
+.rank_row {
+	width: calc(100% - 32px);
+	height: 40px;
+	margin-top: 10px;
+	margin-left: 16px;
+	clear: both;
+	font-size: 20px;
+	line-height: 40px;
+	position: relative;
+	display: block;
+}
+
+.meowilu {
+	width: calc(100% - 32px);
+	height: 180px;
+	background: url(/assets/meowscore.png);
+	background-size: cover;
+	margin-left: 16px;
+	margin-top: 44px;
+	border-radius: 16px;
+}
+
+h3 {
+	font-size: 12px;
+	font-weight: 400;
+	color: #000;
+	margin-left: 16px;
+	margin-top: 40px;
+	margin-bottom: 20px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+h2 {
+	font-size: 36px;
+	font-weight: 300;
+	line-height: 40px;
+	color: #000;
+	margin-left: 16px;
+	margin-top: 32px;
+}
+
+p {
+	font-size: 20px;
+	font-weight: 400;
+	line-height: 28px;
+	color: #000;
+	width: calc(100% - 36px);
+	margin-left: 16px;
+	margin-top: 22px;
+}
+
+@media (min-width: 800px) {
+	#meow_foot_wrap {
+		margin-left: 5%;
 	}
 
-	.country {
-		color: rgba(0, 0, 0, 0.46);
-	}
-
-	.emoji {
-		display: inline-block;
-		margin-right: 8px;
-		font-size: 28px;
-		line-height: 40px;
-		position: absolute;
-		top: -4px;
-		left: 0;
-	}
-
-	.row_left {
-		float: left;
-		line-height: 32px;
-		margin-left: 40px;
-		width: calc(100% - 122px);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		color: #000;
-	}
-
-	.row_right {
-		float: right;
-		line-height: 32px;
-		color: #000;
-	}
-
-	.rank_row {
-		width: calc(100% - 32px);
-		height: 40px;
-		margin-top: 10px;
-		margin-left: 16px;
-		clear: both;
-		font-size: 20px;
-		line-height: 40px;
-		position: relative;
-		display: block;
+	.rank_row, .meowilu, h2, p, h3 {
+		width: 600px;
+		margin-left: 5%;
 	}
 
 	.meowilu {
-		width: calc(100% - 32px);
-		height: 180px;
-		background: url(/assets/meowscore.png);
-		background-size: cover;
-		margin-left: 16px;
-		margin-top: 44px;
-		border-radius: 16px;
+		height: 300px;
 	}
 
-	h3 {
-		font-size: 12px;
-		font-weight: 400;
-		color: #000;
-		margin-left: 16px;
-		margin-top: 40px;
-		margin-bottom: 20px;
-		text-transform: uppercase;
-		letter-spacing: 1px;
+	main {
+		background-color: #f5f5f5;
 	}
-
-	h2 {
-		font-size: 36px;
-		font-weight: 300;
-		line-height: 40px;
-		color: #000;
-		margin-left: 16px;
-		margin-top: 32px;
-	}
-
-	p {
-		font-size: 20px;
-		font-weight: 400;
-		line-height: 28px;
-		color: #000;
-		width: calc(100% - 36px);
-		margin-left: 16px;
-		margin-top: 22px;
-	}
-
-	@media (min-width: 800px) {
-
-		#meow_foot_wrap {
-			margin-left: 5%;
-		}
-		
-
-		.rank_row, .meowilu, h2, p, h3 {
-			width: 600px;
-			margin-left: 5%;
-		}
-
-		.meowilu {
-			height: 300px;
-		}
-
-		main {
-			background-color: #f5f5f5;
-		}
-
-
-	}
-
-
-
-
-
-
-
-
-
-
-
-
+}
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
