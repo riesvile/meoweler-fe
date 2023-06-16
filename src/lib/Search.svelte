@@ -51,6 +51,9 @@ function get_results(q, howmany=7){
 		return check.startsWith(q);
 	});
 
+	console.log('Original results:');
+	console.log(temp_results);
+
 	if (temp_results.length > howmany){
 		temp_results.length = howmany;
 	} else {
