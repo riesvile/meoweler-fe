@@ -187,6 +187,10 @@ export const load = ({ params }) => {
 	let file_to_search = {};
 	file_to_search = check_population(params.slug);
 	let retreive = get_city_content(params.country, params.slug, file_to_search);
+
+	if(retreive.length === 0)
+		return {};
+
 	let retreive2 = get_country_content(retreive[0].country);
 	// console.log('huhuh');
 	let coor = get_latlng(params.country, params.slug);
