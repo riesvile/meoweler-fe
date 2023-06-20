@@ -14,7 +14,7 @@
 		{#each more_meowsome as { ci, co, p }, i}
 		{#if i < 5}
 			<a href='/{co.toLowerCase().substring(0,3) + co.slice(-1)}/{ci.toLowerCase()}' class='search_result'>
-				<div class='result_img test_img' style="background-image: url(/assets/mini/{ci.replace(/\s+/g, '').replace('\'','').toLowerCase() + '-' + co.toLowerCase().substring(0,3) + co.slice(-1) + '-t'}.png), url(/assets/mini/random-t.png);"></div>
+				<div class='result_img test_img' style="background-image: url('/assets/mini/{ci.replace(/\s+/g, '').replace('\'','').toLowerCase() + '-' + co.toLowerCase().substring(0,3) + co.slice(-1) + '-t'}.png'), url(/assets/mini/random-t.png);"></div>
 				<p class='result_text'><span class='cityname'>{ci}</span> · <span class='countryname'>{co}</span></p>
 			</a>
 		{/if}
@@ -25,7 +25,7 @@
 		{#each more_meowsome as { ci, co, p }, i}
 		{#if i >= 5}
 			<a href='/{co.toLowerCase().substring(0,3) + co.slice(-1)}/{ci.toLowerCase()}' class='search_result'>
-				<div class='result_img test_img' style="background-image: url(/assets/mini/{ci.replace(/\s+/g, '').replace('\'','').toLowerCase() + '-' + co.toLowerCase().substring(0,3) + co.slice(-1) + '-t'}.png), url(/assets/mini/random-t.png);"></div>
+				<div class='result_img test_img' style="background-image: url('/assets/mini/{ci.replace(/\s+/g, '').replace('\'','').toLowerCase() + '-' + co.toLowerCase().substring(0,3) + co.slice(-1) + '-t'}.png'), url(/assets/mini/random-t.png);"></div>
 				<p class='result_text'><span class='cityname'>{ci}</span> · <span class='countryname'>{co}</span></p>
 			</a>
 		{/if}

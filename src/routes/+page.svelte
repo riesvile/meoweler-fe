@@ -99,7 +99,7 @@
 	{#each scales.popular as city, i}
 	{#if i <= 4}
 	<a href='/{city[1].toLowerCase().substring(0,3) + city[1].slice(-1)}/{city[0].toLowerCase()}' class='search_result' on:click={(event) => redirect_to(city[0].replace(/\s+/g, '-').toLowerCase())}>
-				<div class='result_img test_img' style="background-image: url(/assets/mini/{city[0].replace(/\s+/g, '').toLowerCase() + '-' + city[1].toLowerCase().substring(0,3) + city[1].slice(-1) + '-t'}.png), url(/assets/mini/random-t.png);"></div>
+				<div class='result_img test_img' style="background-image: url('/assets/mini/{city[0].replace(/\s+/g, '').toLowerCase() + '-' + city[1].toLowerCase().substring(0,3) + city[1].slice(-1) + '-t'}.png'), url(/assets/mini/random-t.png);"></div>
 				<p class='result_text'><span class='cityname'>{city[0]}</span> · <span class='countryname'>{city[1]}</span></p>
 	</a>
 	{/if}
@@ -112,7 +112,7 @@
 	{#if (i > 4) && (i <= 9)}
 	
 	<a href='/{city[1].toLowerCase().substring(0,3) + city[1].slice(-1)}/{city[0].toLowerCase()}' class='search_result' on:click={(event) => redirect_to(city[0].replace(/\s+/g, '-').toLowerCase())}>
-				<div class='result_img test_img' style="background-image: url(/assets/mini/{city[0].replace(/\s+/g, '').toLowerCase() + '-' + city[1].toLowerCase().substring(0,3) + city[1].slice(-1) + '-t'}.png), url(/assets/mini/random-t.png);"></div>
+				<div class='result_img test_img' style="background-image: url('/assets/mini/{city[0].replace(/\s+/g, '').toLowerCase() + '-' + city[1].toLowerCase().substring(0,3) + city[1].slice(-1) + '-t'}.png'), url(/assets/mini/random-t.png);"></div>
 				<p class='result_text'><span class='cityname'>{city[0]}</span> · <span class='countryname'>{city[1]}</span></p>
 	</a>
 	
@@ -126,7 +126,7 @@
 	{#if i > 9}
 	
 	<a href='/{city[1].toLowerCase().substring(0,3) + city[1].slice(-1)}/{city[0].toLowerCase()}' class='search_result' on:click={(event) => redirect_to(city[0].replace(/\s+/g, '-').toLowerCase())}>
-				<div class='result_img test_img' style="background-image: url(/assets/mini/{city[0].replace(/\s+/g, '').toLowerCase() + '-' + city[1].toLowerCase().substring(0,3) + city[1].slice(-1) + '-t'}.png), url(/assets/mini/random-t.png);"></div>
+				<div class='result_img test_img' style="background-image: url('/assets/mini/{city[0].replace(/\s+/g, '').toLowerCase() + '-' + city[1].toLowerCase().substring(0,3) + city[1].slice(-1) + '-t'}.png'), url(/assets/mini/random-t.png);"></div>
 				<p class='result_text'><span class='cityname'>{city[0]}</span> · <span class='countryname'>{city[1]}</span></p>
 	</a>
 	{/if}

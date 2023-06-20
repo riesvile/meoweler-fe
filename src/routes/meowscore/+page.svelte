@@ -52,8 +52,6 @@
 
 
 <style>
-
-
 	main {
 		background-color: #fff;
 	}
@@ -142,11 +140,9 @@
 	}
 
 	@media (min-width: 800px) {
-
 		#meow_foot_wrap {
 			margin-left: 5%;
 		}
-		
 
 		.rank_row, .meowilu, h2, p, h3 {
 			width: 600px;
@@ -160,33 +156,15 @@
 		main {
 			background-color: #f5f5f5;
 		}
-
-
 	}
 
+	@media (min-width: 1520px) {
+		#meow_foot_wrap {
+			margin-left: 10%;
+		}
 
-
-
-
-
-
-
-
-
-
-
+		.rank_row, .meowilu, h2, p, h3 {
+			margin-left: 10%;
+		}
+	}
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

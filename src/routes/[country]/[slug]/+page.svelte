@@ -397,7 +397,7 @@
 </script>
 
 <svelte:head>
-    <title>Meoweler · {data.d.name}</title> 
+    <title>Meoweler {data.d === undefined? '😿' : `· ${data.d?.name}`}</title>
 </svelte:head>
 
 <svelte:window bind:innerWidth={screenWidth} bind:innerHeight={screenHeight} />
@@ -409,9 +409,9 @@
 <div id='overlay'></div>
 
 <div id='wrapall'>
-
+{#if data.d !== undefined}
 <div class='text_intro'>
-	<a href='#' class='country'>{data.d.country}</a> 
+	<a href='#' class='country'>{data.d.country}</a>
 	<h2 id='tagline'><span id='city_in_tagline'>{data.d.name}</span> / {data.d.tagline}</h2>
 </div>
 
@@ -428,7 +428,7 @@
 			{#if data.d['months'] != undefined}
 			<div class='card_content_collapsed'>
 				<h4 class='card_headline getout'>Best month</h4>
-				
+
 				<p class='card_big_text getout' style='color: #228b22;'>{(data.d.months['recommended-month'] === undefined) ? '' : data.d.months['recommended-month'][0]}</p>
 				<p class='card_small_text bottom_aligned getout' style='font-size:16px'>{(data.d.months['recommended-month'] === undefined) ? '' : data.d.months['recommended-month'][1]}</p>
 			</div>
@@ -968,6 +968,11 @@
 <Footer/>
 
 </div>
+
+{:else}
+<p id='not_yet_here'>Cat-astrophe occured. Destination data missing.</p>
+<Footer/>
+{/if}
 
 </div>
 
@@ -1566,7 +1571,7 @@
 	.card_in {
 		margin-left: 18px;
 	}
-	
+
 	.c_1 {
 		width: 100%;
 		height: 148px;
@@ -1722,6 +1727,11 @@
 		display: none;
 	}
 
+	#not_yet_here {
+		padding-top: 25px;
+		font-size: 30px;
+		padding-bottom: 80%;
+	}
 
 	@media (min-width: 800px) {
 		#wrapall {
