@@ -1,3 +1,3 @@
 ---
 
-[Meoweler.com](https://meoweler.com)
+Meoweler.com
