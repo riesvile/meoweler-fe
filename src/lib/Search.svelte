@@ -51,6 +51,9 @@ function get_results(q, howmany=7){
 		return check.startsWith(q);
 	});
 
+	console.log('Original results:');
+	console.log(temp_results);
+
 	if (temp_results.length > howmany){
 		temp_results.length = howmany;
 	} else {
@@ -147,7 +150,7 @@ function search_trigger(e){
 
 		{#each render_results as { ci, co, p }, i}
 			<a href='/{co.toLowerCase().substring(0,3) + co.slice(-1)}/{ci.toLowerCase()}' class='search_result' on:click={(event) => redirect_to(ci.replace(/\s+/g, '-').toLowerCase())}>
-				<div class='result_img test_img' style="background-image: url(/assets/mini/{ci.replace(/\s+/g, '').replace('\'','').toLowerCase() + '-' + co.toLowerCase().substring(0,3) + co.slice(-1) + '-t'}.png), url(/assets/mini/random-t.png);"></div>
+				<div class='result_img test_img' style="background-image: url('/assets/mini/{ci.replace(/\s+/g, '').replace('\'','').toLowerCase() + '-' + co.toLowerCase().substring(0,3) + co.slice(-1) + '-t'}.png'), url(/assets/mini/random-t.png);"></div>
 				<p class='result_text'><span class='cityname'>{ci}</span> · <span class='countryname'>{co}</span></p>
 			</a>
 		{/each}
